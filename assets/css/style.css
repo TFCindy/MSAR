@@ -103,7 +103,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
    ========================================================================== */
 .eyebrow{
   font-family:var(--font-mono);
-  font-size:0.75rem;
+  font-size:0.80rem;
   letter-spacing:0.14em;
   text-transform:uppercase;
   color:var(--crimson-600);
@@ -243,7 +243,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .hero-inner{
   position:relative;z-index:2;
   display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;
-  padding:76px 0 96px;
+  padding:65px 0 96px;
 }
 .hero-media{
   position:relative;border-radius:var(--radius-lg);overflow:hidden;
