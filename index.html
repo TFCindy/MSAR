@@ -127,7 +127,9 @@
   <div class="container">
     <div class="split reveal">
       <div class="split-media">
-        <img src="assets/img/people/group-steps.jpg" alt="MSAR members at UR-CST">
+        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover">
+          <source src="assets/video/msar-session-recap.mp4" type="video/mp4">
+        </video>
         <div class="tag-float"><span class="dot"></span> UR&ndash;CST Campus</div>
       </div>
       <div>
@@ -217,10 +219,20 @@
   <div class="container">
     <div class="split reverse reveal">
       <div class="split-media">
-        <video autoplay muted playsinline controls preload="auto" poster="assets/video/recap-poster.jpg" style="width:100%;height:100%;object-fit:cover;aspect-ratio:5/4.2;background:#000">
-          <source src="assets/video/msar-session-recap.mp4" type="video/mp4">
-        </video>
-        <div class="tag-float" style="pointer-events:none"><span class="dot"></span> Watch a Session</div>
+        <div class="slide-track">
+          <img class="slide-frame" src="assets/img/sessions/session-discussion-2.jpg" alt="MSAR members in discussion">
+          <img class="slide-frame" src="assets/img/sessions/session-laptops-bright.jpg" alt="MSAR members working on laptops">
+          <img class="slide-frame" src="assets/img/sessions/session-full-wide.jpg" alt="Full room at an MSAR session">
+          <img class="slide-frame" src="assets/img/sessions/session-corner.jpg" alt="MSAR session, corner view">
+          <img class="slide-frame" src="assets/img/sessions/session-facilitator-2.jpg" alt="MSAR session, corner view">
+        </div>
+        <div class="slide-dots">
+          <span class="slide-dot is-active"></span>
+          <span class="slide-dot"></span>
+          <span class="slide-dot"></span>
+          <span class="slide-dot"></span>
+        </div>
+        <div class="tag-float" style="pointer-events:none"><span class="dot"></span> Session Moments</div>
       </div>
       <div>
         <div class="eyebrow">Latest recap</div>
@@ -230,7 +242,62 @@
       </div>
     </div>
   </div>
-</section><section class="section">
+</section>
+<style>
+.split-media:has(.slide-track) {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius, 12px);
+  aspect-ratio: 5/4.2;
+}
+.slide-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.slide-frame {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.slide-dots {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+.slide-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.slide-dot.is-active {
+  background: #fff;
+  transform: scale(1.35);
+}
+</style>
+<script>
+(function () {
+  var track = document.querySelector('.split-media .slide-track');
+  var dots = document.querySelectorAll('.split-media .slide-dot');
+  if (!track) return;
+  var total = track.children.length;
+  var current = 0;
+  setInterval(function () {
+    current = (current + 1) % total;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dots.forEach(function (d, i) {
+      d.classList.toggle('is-active', i === current);
+    });
+  }, 4000);
+})();
+</script><section class="section">
   <div class="container">
     <div class="two-col-cta reveal">
       <div class="section-head" style="margin-bottom:0">
