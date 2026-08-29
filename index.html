@@ -66,11 +66,44 @@
       </div>
     </div>
     <div class="hero-media reveal is-visible">
-      <img src="assets/img/sessions/session-audience-1.jpg" alt="MSAR weekly session at UR-CST">
+      <img class="hero-slide is-active" src="assets/img/people/group-dinner.jpg" alt="MSAR members at the yearly dinner">
+      <img class="hero-slide" src="assets/img/people/group-steps.jpg" alt="MSAR members at UR-CST">
+      <img class="hero-slide" src="assets/img/people/group-classroom-banner.jpg" alt="MSAR members in a classroom session">
+       <img class="hero-slide" src="assets/img/sessions/session-panel.jpg" alt="MSAR quiz times">
+      <img class="hero-slide" src="assets/img/sessions/group-standing-2.jpg" alt="MSAR members at a session">
+      <img class="hero-slide" src="assets/img/sessions/session-audience-1.jpg" alt="MSAR weekly session at UR-CST">
       <div class="hero-caption"><span>Weekly Session &middot; UR&ndash;CST</span><span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></span></div>
     </div>
   </div>
-</section><section class="section--tight" style="background:var(--navy-950)">
+</section>
+<style>
+.hero-media { position: relative; overflow: hidden; }
+.hero-media .hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.hero-media .hero-slide.is-active {
+  position: relative;
+  opacity: 1;
+}
+</style>
+<script>
+(function () {
+  var slides = document.querySelectorAll('.hero-media .hero-slide');
+  if (slides.length < 2) return;
+  var current = 0;
+  setInterval(function () {
+    slides[current].classList.remove('is-active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('is-active');
+  }, 4000);
+})();
+</script><section class="section--tight" style="background:var(--navy-950)">
   <div class="container">
     <!-- PLACEHOLDER STATS: years-active is derived from the earliest dated session photo (Oct 2024).
          The other three figures are illustrative — confirm exact numbers with MSAR leadership before publishing. -->
@@ -79,7 +112,7 @@
   <strong data-count-to="2" data-suffix="+">2+</strong>
   <span>Years of Community</span>
 </div><div class="stat">
-  <strong data-count-to="100" data-suffix="+">100+</strong>
+  <strong data-count-to="116">116</strong>
   <span>Students Engaged</span>
 </div><div class="stat">
   <strong data-count-to="25" data-suffix="+">25+</strong>
@@ -184,7 +217,7 @@
   <div class="container">
     <div class="split reverse reveal">
       <div class="split-media">
-        <video controls preload="none" poster="assets/video/recap-poster.jpg" style="width:100%;height:100%;object-fit:cover;aspect-ratio:5/4.2;background:#000">
+        <video autoplay muted playsinline controls preload="auto" poster="assets/video/recap-poster.jpg" style="width:100%;height:100%;object-fit:cover;aspect-ratio:5/4.2;background:#000">
           <source src="assets/video/msar-session-recap.mp4" type="video/mp4">
         </video>
         <div class="tag-float" style="pointer-events:none"><span class="dot"></span> Watch a Session</div>
@@ -244,9 +277,10 @@
       <h2 class="h2">In members&rsquo; own words</h2>
     </div>
     <div class="card reveal" style="max-width:640px;margin:0 auto;padding:48px 40px;text-align:center;background:var(--paper-50)">
+      <span style="display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--crimson-600);background:var(--crimson-50);padding:6px 14px;border-radius:999px;margin-bottom:18px"><span style="width:6px;height:6px;border-radius:50%;background:var(--crimson-600)"></span> Now collecting stories</span>
       <div style="width:56px;height:56px;border-radius:50%;background:var(--crimson-50);color:var(--crimson-600);display:flex;align-items:center;justify-content:center;margin:0 auto 18px"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg></div>
-      <h3 class="h3">Real stories, coming soon</h3>
-      <p style="color:var(--ink-600);margin-top:10px">This space is reserved for real testimonials from MSAR members &mdash; nothing here is invented. If you&rsquo;re a member with a story to share, we&rsquo;d love to feature you.</p>
+      <h3 class="h3">Yours could be the first one here</h3>
+      <p style="color:var(--ink-600);margin-top:10px">We're reaching out to members to hear how their time with MSAR has gone. If a session, a guest talk, or just the community itself has meant something to you, we'd love to feature your words right here.</p>
       <a href="contact.html" class="btn btn--navy btn--sm" style="margin-top:22px">Share Your Story</a>
     </div>
   </div>
