@@ -185,17 +185,40 @@
 
   /* ---------- forms: client-side validation + confirmation (no backend wired yet) ---------- */
   document.querySelectorAll('form[data-demo-form]').forEach(function(form){
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      if(!form.checkValidity()){
-        form.reportValidity();
-        return;
-      }
-      var wrap = form.closest('.form-card');
-      var success = wrap ? wrap.querySelector('.form-success') : null;
-      form.style.display = 'none';
-      if(success) success.classList.add('is-open');
+  var sb = supabase.createClient('https://vwgiyhqopbzbluntsfsi.supabase.co', 'sb_publishable_m80uEiabK1ACpJ0LK42t4g_bejkEps-');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){
+      form.reportValidity();
+      return;
+    }
+
+    var data = new FormData(form);
+    var interests = data.getAll('interests');
+
+    var { error } = await sb.from('join_requests').insert({
+      full_name: data.get('fullname'),
+      email: data.get('email'),
+      phone: data.get('phone'),
+      institution: data.get('institution'),
+      programme: data.get('programme'),
+      year_of_study: data.get('year'),
+      interests: interests,
+      why_join: data.get('why')
     });
+
+    if (error) {
+      alert('Something went wrong submitting your form — please try again.');
+      console.error(error);
+      return;
+    }
+
+    var wrap = form.closest('.form-card');
+    var success = wrap ? wrap.querySelector('.form-success') : null;
+    form.style.display = 'none';
+    if(success) success.classList.add('is-open');
   });
+});
 
 })();
