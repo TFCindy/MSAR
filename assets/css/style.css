@@ -278,6 +278,25 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 }
 
 /* ==========================================================================
+   Home-page hero: tighter spacing so the hero fits without scrolling.
+   Scoped to .page-home — the shared .hero/.hero-inner/.hero-meta rules
+   above are untouched everywhere else.
+   ========================================================================== */
+.page-home .hero{
+  padding-top:24px;
+}
+.page-home .hero-inner{
+  padding:0.5px 0 56px;
+}
+.page-home .hero-actions{
+  margin-top:22px;
+}
+.page-home .hero-meta{
+  margin-top:28px;
+  padding-top:18px;
+}
+
+/* ==========================================================================
    Sections / rhythm
    ========================================================================== */
 .section{padding:104px 0;position:relative;}
