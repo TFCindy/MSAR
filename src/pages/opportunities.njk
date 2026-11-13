@@ -1,0 +1,88 @@
+---
+layout: layouts/base.njk
+permalink: /opportunities/
+title: Career & Professional Opportunities
+description: "How MSAR connects mathematics and statistics students with career insights, specialist training, mentors and partner organisations."
+ogImage: /images/events/data-skills-certificates/panel-02.jpg
+---
+{%- from "partials/macros.njk" import icon, mark, pageHero, eventCard -%}
+{%- set careerEvents = collections.events | eventsForProgram('careers-mentorship') -%}
+{{ pageHero("Opportunities", "Where your skills meet the <em>real world.</em>", "MSAR connects members with career insights, specialist training, mentors and organisations that value analytical talent. Here's what's available — and what we're working on.", [{label: "Opportunities"}], "/images/events/data-skills-certificates/panel-02.jpg", "A speaker sharing his career experience at an MSAR event") }}
+
+<section class="section section--paper">
+  <div class="container">
+    <div class="section-head section-head--center"><p class="eyebrow">Available to members</p><h2 class="h2">Ways MSAR opens doors</h2></div>
+    <div class="grid grid--2" data-reveal-group>
+      <article class="benefit" data-reveal>
+        <span class="b-ico">{{ icon('briefcase') }}</span>
+        <h3>Career development sessions</h3>
+        <p>Sessions with partner organisations on talent profiles, what employers look for and how to present your skills. Our collaboration with <strong>Jobra</strong> focuses on career insights, talent profiling, mentorship and industry exposure.</p>
+        <a class="link-arrow mt-s" href="/events/msar-jobra-career-session-2026/">MSAR × Jobra session, 17 Nov 2026 {{ icon('arrow') }}</a>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="b-ico">{{ icon('globe') }}</span>
+        <h3>Specialist training with partners</h3>
+        <p>Selection-based places on professional trainings. Five MSAR students completed geospatial data analytics training with <strong>DATA+ Rwanda</strong> — QGIS, Google Earth Engine, Python and spatial analysis.</p>
+        <a class="link-arrow mt-s" href="/events/geospatial-training-data-plus/">About the geospatial training {{ icon('arrow') }}</a>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="b-ico">{{ icon('award') }}</span>
+        <h3>Certified practical training</h3>
+        <p>The MSAR Data Skills Training Program builds a portfolio of job-relevant skills in KoboToolbox, Excel, Power BI, AI tools and programming, with certificates for participants who complete it.</p>
+        <a class="link-arrow mt-s" href="/programs/data-skills/">Data Skills Development {{ icon('arrow') }}</a>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="b-ico">{{ icon('users') }}</span>
+        <h3>Mentors, alumni and guest speakers</h3>
+        <p>Alumni sessions and guest talks give members direct access to people who have walked the path — and honest answers to questions that don't come up in class.</p>
+        <a class="link-arrow mt-s" href="/programs/careers-mentorship/">Career Development &amp; Mentorship {{ icon('arrow') }}</a>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="b-ico">{{ icon('network') }}</span>
+        <h3>Leadership experience</h3>
+        <p>Members help organise trainings, sessions and partnerships — real experience in planning, communication and teamwork that employers recognise.</p>
+        <a class="link-arrow mt-s" href="/leadership/">Meet the leadership {{ icon('arrow') }}</a>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="b-ico">{{ icon('flask') }}</span>
+        <h3>Research &amp; projects</h3>
+        <p>A growing area: applying study design, data collection and analysis to real questions. Members with research ideas are encouraged to bring them forward.</p>
+        <a class="link-arrow mt-s" href="/programs/research-innovation/">Research &amp; Innovation {{ icon('arrow') }}</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--white">
+  <div class="container split">
+    <div>
+      <p class="eyebrow">In the pipeline</p>
+      <h2 class="h2 mt-s">What we're {{ mark("working on") }}</h2>
+      <p class="lede mt-m">We're in conversation with partners about further career development initiatives, including <strong>possible internship opportunities in 2027</strong>.</p>
+      <p class="note mt-m">{{ icon('info') }}<span>These are discussions, not confirmed placements. We'll only announce opportunities once they are agreed — and members will hear first.</span></p>
+      <div class="btn-row mt-m"><a href="/join/" class="btn btn--amber">Join to hear first {{ icon('arrow', 'icon--arrow') }}</a><a href="{{ site.socials[0].url }}" class="btn btn--outline" target="_blank" rel="noopener noreferrer">{{ icon('linkedin', 'icon--fill') }} Follow on LinkedIn</a></div>
+    </div>
+    <div class="collage" data-reveal="zoom">
+      <div class="c-main"><img src="/images/events/data-skills-certificates/hosts-on-stage.jpg" alt="Two MSAR members hosting an event on stage" sizes="(max-width: 1024px) 80vw, 480px"></div>
+      <div class="c-sub"><img src="/images/events/data-skills-certificates/audience-03.jpg" alt="Participants listening during an MSAR event" sizes="(max-width: 1024px) 50vw, 320px"></div>
+    </div>
+  </div>
+</section>
+
+{% if careerEvents.length %}
+<section class="section section--paper">
+  <div class="container">
+    <div class="section-head section-head--split"><p class="eyebrow">Career events</p><h2 class="h2">Sessions focused on careers</h2><div class="head-action"><a href="/events/?category=Career%20Development" class="btn btn--outline">All career events {{ icon('arrow', 'icon--arrow') }}</a></div></div>
+    <div class="grid grid--3" data-reveal-group>{% for ev in careerEvents | limit(3) %}{{ eventCard(ev) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section section--paper section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal="zoom">
+      <div><h2 class="h2">Are you an <em>employer or organisation?</em></h2><p>Share career insights, host a guest talk, offer training or explore internships with MSAR members. We'd love to talk.</p></div>
+      <div class="btn-row"><a href="/contact/?topic=partnership" class="btn btn--amber">Partner with MSAR {{ icon('arrow', 'icon--arrow') }}</a><a href="/partners/" class="btn btn--ghost">Our partners</a></div>
+    </div>
+  </div>
+</section>

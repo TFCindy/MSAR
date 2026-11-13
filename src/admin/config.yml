@@ -1,0 +1,291 @@
+# MSAR content manager (Sveltia CMS — compatible with Decap/Netlify CMS config)
+# Sign in at https://msar.rw/admin/ with a GitHub account that has write access to the repository.
+backend:
+  name: github
+  repo: TFCindy/MSAR
+  branch: master
+  commit_messages:
+    create: "Content: create {{collection}} “{{slug}}”"
+    update: "Content: update {{collection}} “{{slug}}”"
+    delete: "Content: delete {{collection}} “{{slug}}”"
+    uploadMedia: "Content: upload “{{path}}”"
+    deleteMedia: "Content: delete “{{path}}”"
+
+site_url: https://msar.rw
+display_url: https://msar.rw
+logo_url: /images/brand/msar-badge.png
+media_folder: src/images/uploads
+public_folder: /images/uploads
+
+collections:
+  # ---------------------------------------------------------------- EVENTS
+  - name: events
+    label: Events
+    label_singular: Event
+    description: >
+      Publish an event once — it appears automatically in Upcoming, Recent and the Events archive.
+      Leave Status on “Automatic” and the site works out upcoming / happening now / completed from the dates.
+      After the event, add photos to the Gallery list: they appear on the event page and in the Photo Gallery.
+    folder: src/events
+    create: true
+    slug: "{{slug}}"
+    summary: "{{startDate | date('YYYY-MM-DD')}} — {{title}}"
+    sortable_fields: [startDate, title, category]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: summary, label: Short summary (cards & previews), widget: text, hint: "One or two sentences, ideally under 180 characters." }
+      - name: category
+        label: Category
+        widget: select
+        options: [Training, Fellowship, Career Development, Guest Talk, Community, Competition, Workshop]
+      - name: status
+        label: Status
+        widget: select
+        default: auto
+        options:
+          - { label: "Automatic (from dates) — recommended", value: auto }
+          - { label: Upcoming, value: upcoming }
+          - { label: Happening now, value: ongoing }
+          - { label: Completed, value: completed }
+          - { label: Postponed, value: postponed }
+          - { label: Cancelled, value: cancelled }
+      - { name: series, label: "Ongoing series (no single date)", widget: boolean, default: false, required: false }
+      - { name: startDate, label: Start date, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - { name: endDate, label: End date (multi-day events), widget: datetime, format: "YYYY-MM-DD", time_format: false, required: false }
+      - { name: startTime, label: "Start time (24h, e.g. 17:00)", widget: string, required: false, pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Use HH:MM, e.g. 17:00"] }
+      - { name: endTime, label: "End time (24h, e.g. 19:00)", widget: string, required: false, pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Use HH:MM, e.g. 19:00"] }
+      - { name: dateDisplay, label: "Date label override (optional)", widget: string, required: false, hint: "e.g. “December 2025” or “2026” when the exact day isn't known. Leave empty to show the full date." }
+      - { name: location, label: Location, widget: string }
+      - { name: audience, label: Who it's for, widget: string, required: false }
+      - { name: cover, label: Cover photo, widget: image, required: false, hint: "Landscape photo works best. Leave empty to use an automatic branded cover." }
+      - { name: coverAlt, label: Cover photo description (for accessibility), widget: string, required: false }
+      - { name: poster, label: Flyer / poster (optional), widget: image, required: false }
+      - { name: posterAlt, label: Flyer description, widget: string, required: false }
+      - { name: registrationUrl, label: Registration link, widget: string, required: false, hint: "Google Form, Jobra, Eventbrite… Shown as a “Register now” button while the event is upcoming." }
+      - { name: registrationNote, label: Registration note (when no link yet), widget: string, required: false }
+      - { name: partners, label: Partner organisations, widget: list, required: false }
+      - name: programs
+        label: Related programs
+        widget: relation
+        collection: programs
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        multiple: true
+        required: false
+      - { name: highlights, label: "“What you'll gain” points", widget: list, required: false }
+      - { name: tools, label: Tools & topics, widget: list, required: false }
+      - { name: featured, label: Featured, widget: boolean, default: false, required: false }
+      - name: gallery
+        label: Photo gallery
+        label_singular: Photo
+        widget: list
+        required: false
+        summary: "{{fields.caption}}"
+        fields:
+          - { name: image, label: Photo, widget: image }
+          - { name: caption, label: Caption, widget: string }
+      - { name: draft, label: "Draft (hide from the website)", widget: boolean, default: false, required: false }
+      - { name: body, label: Full description, widget: markdown }
+
+  # ---------------------------------------------------------------- NEWS
+  - name: news
+    label: News & announcements
+    label_singular: Post
+    folder: src/news
+    create: true
+    slug: "{{slug}}"
+    summary: "{{date | date('YYYY-MM-DD')}} — {{title}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Publish date, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - { name: category, label: Category, widget: select, options: [Announcement, Recap, Partnership, Community, Opportunity] }
+      - { name: summary, label: Summary, widget: text }
+      - { name: cover, label: Cover image, widget: image, required: false }
+      - { name: coverAlt, label: Cover description, widget: string, required: false }
+      - { name: event, label: Related event, widget: relation, collection: events, value_field: "{{slug}}", search_fields: [title], display_fields: [title], required: false }
+      - { name: draft, label: Draft, widget: boolean, default: false, required: false }
+      - { name: body, label: Body, widget: markdown }
+
+  # ---------------------------------------------------------------- PROGRAMS
+  - name: programs
+    label: Programs
+    label_singular: Program
+    folder: src/programs
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: order, label: Display order, widget: number, value_type: int }
+      - { name: kicker, label: Small label, widget: string }
+      - name: icon
+        label: Icon
+        widget: select
+        options: [chart, sigma, globe, flask, compass, network, briefcase, award, users, book, sparkle]
+      - { name: summary, label: Summary, widget: text }
+      - { name: cover, label: Cover photo, widget: image }
+      - { name: coverAlt, label: Cover description, widget: string }
+      - { name: tools, label: Tools & formats, widget: list }
+      - { name: outcomes, label: What members gain, widget: list }
+      - { name: body, label: Description, widget: markdown }
+
+  # ---------------------------------------------------------------- TEAM
+  - name: team
+    label: Leadership & team
+    label_singular: Person
+    folder: src/team
+    create: true
+    slug: "{{slug}}"
+    summary: "{{name}} — {{role}} {{term}}"
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: role, label: Role, widget: string, hint: "e.g. President, Vice President, Secretary" }
+      - name: group
+        label: Group
+        widget: select
+        options:
+          - { label: Founder, value: founder }
+          - { label: "President (by year)", value: president }
+          - { label: "Current committee", value: committee }
+      - { name: term, label: Term / year, widget: string, required: false }
+      - { name: order, label: Display order, widget: number, value_type: int }
+      - { name: photo, label: Photo, widget: image, required: false }
+      - { name: linkedin, label: LinkedIn URL, widget: string, required: false }
+      - { name: quote, label: Short quote, widget: text, required: false }
+      - { name: body, label: Bio, widget: markdown, required: false }
+
+  # ---------------------------------------------------------------- SETTINGS
+  - name: settings
+    label: Site settings
+    files:
+      - name: site
+        label: Contact details & impact numbers
+        file: src/_data/site.json
+        fields:
+          - { name: name, label: Short name, widget: string }
+          - { name: fullName, label: Full name, widget: string }
+          - { name: tagline, label: Tagline, widget: string }
+          - { name: url, label: Website URL, widget: string }
+          - { name: description, label: Default description, widget: text }
+          - { name: founded, label: Year founded, widget: string }
+          - { name: home, label: Home institution, widget: string }
+          - { name: address, label: Address, widget: string }
+          - { name: mapUrl, label: Map link, widget: string }
+          - { name: email, label: Email, widget: string }
+          - { name: phone, label: Phone (display), widget: string }
+          - { name: phoneHref, label: Phone (digits for links), widget: string }
+          - { name: whatsapp, label: WhatsApp number (digits only), widget: string }
+          - name: socials
+            label: Social links
+            widget: list
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: url, label: URL, widget: string }
+              - { name: icon, label: Icon, widget: select, options: [linkedin, whatsapp] }
+          - { name: ogImage, label: Default social sharing image, widget: image }
+          - { name: mission, label: Mission, widget: text }
+          - { name: vision, label: Vision, widget: text }
+          - name: stats
+            label: Impact numbers
+            widget: object
+            fields:
+              - { name: asOf, label: "Figures as of (year)", widget: string }
+              - { name: note, label: Note shown under the numbers, widget: text }
+              - name: items
+                label: Main numbers (bar chart — first item is the tallest)
+                widget: list
+                fields:
+                  - { name: value, label: Number, widget: number, value_type: int }
+                  - { name: suffix, label: "Suffix (e.g. +)", widget: string, required: false }
+                  - { name: label, label: Label, widget: string }
+                  - { name: detail, label: Detail, widget: string }
+              - name: highlights
+                label: Highlights
+                widget: list
+                fields:
+                  - { name: value, label: Value, widget: string }
+                  - { name: label, label: Label, widget: string }
+          - name: supabase
+            label: Forms backend (Supabase)
+            widget: object
+            collapsed: true
+            fields:
+              - { name: url, label: Project URL, widget: string }
+              - { name: publishableKey, label: Publishable key, widget: string }
+      - name: partners
+        label: Partners
+        file: src/_data/partners.json
+        fields:
+          - name: partners
+            label: Partners
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: short, label: Short name, widget: string }
+              - { name: type, label: Type, widget: string }
+              - { name: relationship, label: "Relationship (e.g. Collaborator, Partner)", widget: string, hint: "Only describe relationships that are formally established." }
+              - { name: description, label: Description, widget: text }
+              - { name: website, label: Website, widget: string, required: false }
+              - { name: logo, label: Official logo, widget: image, required: false }
+      - name: faqs
+        label: FAQs
+        file: src/_data/faqs.json
+        fields:
+          - name: items
+            label: Questions
+            widget: list
+            summary: "{{fields.q}}"
+            fields:
+              - { name: q, label: Question, widget: string }
+              - { name: a, label: Answer, widget: text }
+      - name: resources
+        label: Resources
+        file: src/_data/resources.json
+        fields:
+          - name: msarMaterials
+            label: MSAR materials & publications
+            widget: list
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: type, label: "Type (Slides, Report, Dataset…)", widget: string }
+              - { name: description, label: Description, widget: text }
+              - { name: file, label: Upload file, widget: file, required: false, media_folder: /src/assets/files, public_folder: /assets/files }
+              - { name: url, label: Or external link, widget: string, required: false }
+          - name: groups
+            label: External learning resources
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: Group title, widget: string }
+              - name: items
+                label: Links
+                widget: list
+                summary: "{{fields.name}}"
+                fields:
+                  - { name: name, label: Name, widget: string }
+                  - { name: desc, label: Description, widget: text }
+                  - { name: url, label: URL, widget: string }
+                  - { name: tag, label: Tag, widget: string }
+      - name: albums
+        label: Extra photo albums
+        file: src/_data/albums.json
+        fields:
+          - name: albums
+            label: Albums (photos not tied to a single event)
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: slug, label: "Short id (lowercase-with-dashes)", widget: string }
+              - { name: year, label: Year(s), widget: string }
+              - { name: description, label: Description, widget: text }
+              - name: photos
+                label: Photos
+                widget: list
+                summary: "{{fields.caption}}"
+                fields:
+                  - { name: image, label: Photo, widget: image }
+                  - { name: caption, label: Caption, widget: string }

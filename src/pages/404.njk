@@ -1,0 +1,15 @@
+---
+layout: layouts/base.njk
+permalink: /404.html
+title: Page not found
+eleventyExcludeFromCollections: true
+---
+{%- from "partials/macros.njk" import icon -%}
+<section class="page-hero" style="min-height:70vh;display:flex;align-items:center">
+  <div class="container">
+    <p class="eyebrow">Error 404 · p &lt; 0.05</p>
+    <h1 class="display" style="margin-top:18px">This page is an <em>outlier.</em></h1>
+    <p class="lede">We couldn't find what you were looking for. It may have moved during our website update.</p>
+    <div class="btn-row"><a href="/" class="btn btn--amber">Back to home {{ icon('arrow', 'icon--arrow') }}</a><a href="/events/" class="btn btn--ghost">Browse events</a><a href="/contact/" class="btn btn--ghost">Contact us</a></div>
+  </div>
+</section>

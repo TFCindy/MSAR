@@ -1,0 +1,111 @@
+---
+layout: layouts/base.njk
+permalink: /about/
+title: About MSAR
+description: "The story, mission and vision of the Mathematics and Statistics Students' Association of Rwanda — from peer study sessions in 2022 to a growing professional student association."
+ogImage: /images/events/data-skills-training/group-01.jpg
+---
+{%- from "partials/macros.njk" import icon, mark, pageHero -%}
+{{ pageHero("About MSAR", "A study circle that grew into a <em>community.</em>", "MSAR brings together mathematics and statistics students to learn from each other, build practical skills, and take their first confident steps into research and the world of work.", [{label: "About"}], "/images/events/data-skills-training/group-01.jpg", "MSAR members gathered for a group photo in a training room") }}
+
+<section class="section section--paper">
+  <div class="container split">
+    <div>
+      <p class="eyebrow">Our story</p>
+      <h2 class="h2 mt-s">Started small. {{ mark("Kept showing up.") }}</h2>
+      <div class="prose mt-m">
+        <p>MSAR began in {{ site.founded }} with a few statistics students at the University of Rwanda's College of Science and Technology who simply enjoyed meeting to do maths together — puzzles, games and problem sets, with no pressure and nothing official about it.</p>
+        <p>Students from other years kept joining. The informal meet-ups became regular sessions, the sessions added practical tools, and guest speakers began to visit. Today MSAR runs practical data-skills training, fellowship sessions, career development activities and specialist training with partners.</p>
+        <p>The constant has been simple: students showing up, week after week, to learn from each other and from people already working in the field.</p>
+      </div>
+    </div>
+    <div class="collage" data-reveal="zoom">
+      <div class="c-main"><img src="/images/archive/weekly-sessions/evening-session.jpg" alt="MSAR members attending an evening session at UR–CST" sizes="(max-width: 1024px) 80vw, 480px"></div>
+      <div class="c-sub"><img src="/images/events/data-skills-certificates/certificate-06.jpg" alt="A participant receiving a training certificate" sizes="(max-width: 1024px) 50vw, 320px"></div>
+      <div class="c-stat"><b>{{ site.stats.items[2].value }}</b><span>alumni and<br>counting</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--white">
+  <div class="container">
+    <div class="grid grid--2" data-reveal-group>
+      <div class="panel" data-reveal style="padding:clamp(28px,4vw,48px)">
+        <p class="eyebrow">Our mission</p>
+        <p class="statement mt-s" style="font-size:clamp(1.4rem,1rem + 1.4vw,2.2rem)">{{ site.mission }}</p>
+      </div>
+      <div class="panel panel-navy" data-reveal style="padding:clamp(28px,4vw,48px)">
+        <p class="eyebrow">Our vision</p>
+        <p class="statement mt-s" style="font-size:clamp(1.4rem,1rem + 1.4vw,2.2rem);color:var(--white)">{{ site.vision }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--paper">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <p class="eyebrow">What makes MSAR different</p>
+      <h2 class="h2">Six things, working together</h2>
+      <p class="lede">We are not just a university club. MSAR connects what students learn in lectures with the skills, people and opportunities that make that learning count.</p>
+    </div>
+    <div class="grid grid--3" data-reveal-group>
+      {%- set diffs = [
+        ["sigma", "Mathematics", "Rigorous foundations, problem-solving and the joy of a well-reasoned answer."],
+        ["chart", "Statistics", "Thinking clearly about data, uncertainty and evidence."],
+        ["sparkle", "Technology", "KoboToolbox, Excel, Power BI, QGIS, Python and modern AI tools."],
+        ["award", "Practical skills", "Training where every participant works hands-on — and earns a certificate."],
+        ["users", "Community", "Peer learning across years, campuses and alumni."],
+        ["briefcase", "Professional exposure", "Guest talks, career sessions and partners in industry."]
+      ] -%}
+      {% for d in diffs %}
+      <div class="benefit" data-reveal><span class="b-ico">{{ icon(d[0]) }}</span><h3>{{ d[1] }}</h3><p>{{ d[2] }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--white">
+  <div class="container split split--top">
+    <div style="position:sticky;top:calc(var(--header-h) + 24px)">
+      <p class="eyebrow">Our journey</p>
+      <h2 class="h2 mt-s">How MSAR grew</h2>
+      <p class="lede mt-m">A look back at the moments — big and small — that got us here.</p>
+      <a href="/events/" class="btn btn--outline mt-m">Browse all events {{ icon('arrow', 'icon--arrow') }}</a>
+    </div>
+    <ol class="timeline">
+      {%- set tl = [
+        ["2022", "Peer sessions begin", "Statistics students at UR–CST start meeting regularly to solve problems together. Students from other years soon join."],
+        ["Oct 2024", "Quiz night and weekly sessions", "Members meet for structured weekly sessions, and a team-based quiz night brings different years together."],
+        ["Nov 2024", "Practical tools join the programme", "Sessions expand to cover practical tools alongside core theory."],
+        ["Dec 2025", "Guest speakers", "Members begin hearing from guest speakers about how mathematics and statistics show up in real careers."],
+        ["May 2026", "The MSAR Yearly Dinner", "Members gather at Kigali View Hotel to celebrate the year and set goals for the next one."],
+        ["2026", "Geospatial training with DATA+ Rwanda", "Five selected members complete professional training in QGIS, Google Earth Engine, Python and spatial analysis."],
+        ["2026", "Data Skills Training Program", "Hands-on training in KoboToolbox, Excel, Power BI, AI tools and programming — with certificates for participants."],
+        ["2026", "Fellowship sessions at Gikondo", "Fellowship sessions bring students together at the University of Rwanda Gikondo Campus."],
+        ["Nov 2026", "Career development with Jobra", "MSAR and Jobra host a joint career development session on talent profiles and career insights."]
+      ] -%}
+      {% for t in tl %}<li data-reveal><span class="when">{{ t[0] }}</span><div><h3>{{ t[1] }}</h3><p>{{ t[2] }}</p></div></li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="section section--navy section--rounded impact">
+  <div class="container">
+    <div class="section-head section-head--center"><p class="eyebrow">MSAR in numbers</p><h2 class="h2">Growing, one session at a time</h2></div>
+    <div class="stats-row" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.12)" data-reveal>
+      {% for s in site.stats.items %}<div class="stat" style="background:var(--navy-900)"><b style="color:var(--amber)" data-count="{{ s.value }}" data-suffix="{{ s.suffix }}">{{ s.value }}{{ s.suffix }}</b><span style="color:var(--navy-200)">{{ s.label }}</span></div>{% endfor %}
+      <div class="stat" style="background:var(--navy-900)"><b style="color:var(--amber)">{{ site.founded }}</b><span style="color:var(--navy-200)">Year MSAR began</span></div>
+    </div>
+    <p class="impact-note center">{{ site.stats.note }} As of {{ site.stats.asOf }}.</p>
+  </div>
+</section>
+
+<section class="section section--paper section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal="zoom">
+      <div><h2 class="h2">Want to be part of the <em>next chapter?</em></h2><p>MSAR is open to mathematics and statistics students at every year of study.</p></div>
+      <div class="btn-row"><a href="/join/" class="btn btn--amber">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a><a href="/leadership/" class="btn btn--ghost">Meet the leadership</a></div>
+    </div>
+  </div>
+</section>

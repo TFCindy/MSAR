@@ -1,0 +1,117 @@
+{#- Reusable UI macros -#}
+{% macro icon(name, cls="") %}<svg class="icon {{ cls }}" aria-hidden="true" focusable="false"><use href="#i-{{ name }}"/></svg>{% endmacro %}
+
+{% macro mark(text) %}<span class="mark">{{ text | safe }}<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 15 C 60 4, 140 4, 200 9 S 280 14, 297 5"/></svg></span>{% endmacro %}
+
+{% macro genCover(e) %}
+<div class="gen-cover gen-cover--{{ e.category | replace(' ', '') }}" aria-hidden="true">
+  <svg class="curve" viewBox="0 0 200 120" fill="none"><path d="M0 110 C 50 100, 80 20, 200 10" stroke="#f2b33d" stroke-width="2.5"/><g fill="#9db1d3">{% for p in [[20,104],[46,92],[70,70],[88,52],[112,40],[140,26],[168,18],[60,84],[100,58],[130,42]] %}<circle cx="{{ p[0] }}" cy="{{ p[1] }}" r="2.6"/>{% endfor %}</g></svg>
+  {% if e.dateDisplay %}<span class="gen-num">{{ e.startDate | year }}</span>{% else %}<span class="gen-num">{{ e.startDate | day }}<br>{{ e.startDate | mon }}</span>{% endif %}
+  <span class="gen-sub">{{ e.category }}</span>
+</div>
+{% endmacro %}
+
+{% macro dateBadge(e) %}
+{% if e.dateDisplay %}<span class="date-badge date-badge--text"><b>{{ e.dateDisplay }}</b></span>
+{% else %}<span class="date-badge"><b>{{ e.startDate | day }}</b><span>{{ e.startDate | mon }} {{ e.startDate | year }}</span></span>{% endif %}
+{% endmacro %}
+
+{% macro statusBadge(e) %}
+{%- set st = e | eventStatus -%}
+{%- if e.series -%}<span class="status status--ongoing">Ongoing series</span>
+{%- else -%}<span class="status status--{{ st }}" {% if (e.status or 'auto') == 'auto' %}data-status-badge{% endif %}>{{ st | statusLabel }}</span>{%- endif -%}
+{% endmacro %}
+
+{% macro eventCard(ev, headingLevel="h3") %}
+{%- set e = ev.data -%}
+<article class="card event-card" data-filter-item data-cat="{{ e.category }}" data-year="{{ e.startDate | year }}"
+  data-event-start="{{ e | startISO }}" data-event-end="{{ e | endISO }}" data-status-mode="{{ 'manual' if e.series else (e.status or 'auto') }}" data-reveal>
+  <div class="card-media">
+    {% if e.cover %}<img src="{{ e.cover }}" alt="{{ e.coverAlt or '' }}" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px">{% else %}{{ genCover(e) }}{% endif %}
+    <div class="media-top">{{ dateBadge(e) }}{{ statusBadge(e) }}</div>
+  </div>
+  <div class="card-body">
+    <div class="chips"><span class="chip">{{ e.category }}</span></div>
+    <{{ headingLevel }} class="card-title"><a href="{{ ev.url }}">{{ e.title }}</a></{{ headingLevel }}>
+    <p class="card-text">{{ e.summary | truncate(150) }}</p>
+    <div class="card-foot">
+      <div class="event-meta">{% if e.location %}<span>{{ icon('pin') }}{{ e.location | truncate(38) }}</span>{% endif %}</div>
+    </div>
+  </div>
+</article>
+{% endmacro %}
+
+{% macro programCard(p) %}
+<article class="card program-card" data-reveal>
+  <div class="card-media">
+    <div class="media-clip"><img src="{{ p.data.cover }}" alt="{{ p.data.coverAlt or '' }}" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"></div>
+    <span class="program-icon">{{ icon(p.data.icon or 'chart') }}</span>
+  </div>
+  <div class="card-body">
+    <span class="program-kicker">{{ p.data.kicker }}</span>
+    <h3 class="card-title"><a href="{{ p.url }}">{{ p.data.title }}</a></h3>
+    <p class="card-text">{{ p.data.summary }}</p>
+    <div class="card-foot"><span class="link-arrow">Learn more {{ icon('arrow', 'icon--arrow') }}</span></div>
+  </div>
+</article>
+{% endmacro %}
+
+{% macro newsCard(n) %}
+<article class="card news-card" data-reveal>
+  <div class="card-media">{% if n.data.cover %}<img src="{{ n.data.cover }}" alt="{{ n.data.coverAlt or '' }}" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px">{% endif %}</div>
+  <div class="card-body">
+    <div class="chips"><span class="chip chip--amber">{{ n.data.category }}</span><time datetime="{{ n.date | isoDate }}">{{ n.date | shortDate }}</time></div>
+    <h3 class="card-title"><a href="{{ n.url }}">{{ n.data.title }}</a></h3>
+    <p class="card-text">{{ n.data.summary | truncate(150) }}</p>
+  </div>
+</article>
+{% endmacro %}
+
+{% macro galleryItem(img, caption, album="", href="", sizes="(max-width: 640px) 50vw, 320px", attrs="") %}
+<button type="button" class="m-item" data-caption="{{ caption }}" {% if album %}data-album="{{ album }}"{% endif %} {% if href %}data-href="{{ href }}"{% endif %} {{ attrs | safe }} aria-label="Open photo: {{ caption }}">
+  <img src="{{ img }}" alt="{{ caption }}" sizes="{{ sizes }}">
+  <span class="m-cap" aria-hidden="true">{% if album %}<small>{{ album }}</small>{% endif %}{{ caption }}</span>
+</button>
+{% endmacro %}
+
+{% macro pageHero(eyebrow, title, lede="", crumbs=[], image="", imageAlt="") %}
+<section class="page-hero {% if image %}page-hero--image{% endif %}">
+  <div class="container {% if image %}page-hero-grid{% endif %}">
+    <div class="page-hero-copy">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb"><li><a href="/">Home</a></li>{% for c in crumbs %}<li>{% if c.url %}<a href="{{ c.url }}">{{ c.label }}</a>{% else %}<span aria-current="page">{{ c.label }}</span>{% endif %}</li>{% endfor %}</ol></nav>
+      <p class="eyebrow mt-m">{{ eyebrow }}</p>
+      <h1 class="h1">{{ title | safe }}</h1>
+      {% if lede %}<p class="lede">{{ lede | safe }}</p>{% endif %}
+      {{ caller() if caller }}
+    </div>
+    {% if image %}<div class="page-hero-media" data-reveal="clip"><img src="{{ image }}" alt="{{ imageAlt }}" loading="eager" fetchpriority="high" sizes="(max-width: 860px) 100vw, 45vw"></div>{% endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{% macro featureEvent(next) %}
+{%- set e = next.data -%}
+      <article class="feature-event" data-event-start="{{ e | startISO }}" data-event-end="{{ e | endISO }}" data-status-mode="{{ e.status or 'auto' }}" data-reveal>
+        <div class="feature-poster">{% if e.poster %}<img src="{{ e.poster }}" alt="{{ e.posterAlt }}" sizes="(max-width: 900px) 280px, 360px">{% elif e.cover %}<img src="{{ e.cover }}" alt="{{ e.coverAlt }}" sizes="360px">{% endif %}</div>
+        <div class="feature-body">
+          <div class="chips"><span class="status status--upcoming" data-status-badge>Upcoming</span><span class="chip">{{ e.category }}</span>{% for p in e.partners %}<span class="chip chip--amber">with {{ p }}</span>{% endfor %}</div>
+          <h3><a href="{{ next.url }}" style="text-decoration:none">{{ e.title }}</a></h3>
+          <p class="card-text">{{ e.summary }}</p>
+          <div class="feature-facts">
+            <div class="fact"><span class="ico">{{ icon('calendar') }}</span><div><small>Date</small><strong>{{ e.startDate | weekday }}, {{ e | eventDateLabel }}</strong></div></div>
+            {% if e.startTime %}<div class="fact"><span class="ico">{{ icon('clock') }}</span><div><small>Time</small><strong>{{ e | timeRange }}</strong></div></div>{% endif %}
+            <div class="fact"><span class="ico">{{ icon('pin') }}</span><div><small>Venue</small><strong>{{ e.location }}</strong></div></div>
+            {% if e.audience %}<div class="fact"><span class="ico">{{ icon('users') }}</span><div><small>For</small><strong>{{ e.audience }}</strong></div></div>{% endif %}
+          </div>
+          <div class="countdown-lg" data-countdown="{{ e | startISO }}" hidden aria-label="Time until the event starts">
+            <div><b data-d>0</b><span>days</span></div><div><b data-h>00</b><span>hrs</span></div><div><b data-m>00</b><span>min</span></div><div><b data-s>00</b><span>sec</span></div>
+          </div>
+          <div class="btn-row">
+            {% if e.registrationUrl %}<a class="btn btn--amber" href="{{ e.registrationUrl }}" target="_blank" rel="noopener noreferrer">Register now {{ icon('arrow-up-right') }}</a>{% endif %}
+            <a class="btn" href="{{ next.url }}">Event details {{ icon('arrow', 'icon--arrow') }}</a>
+            {% if e.startTime %}<a class="btn btn--outline" href="/events/{{ next.page.fileSlug }}.ics" download>{{ icon('calendar') }} Add to calendar</a>{% endif %}
+          </div>
+          {% if not e.registrationUrl and e.registrationNote %}<p class="note">{{ icon('info') }}<span>{{ e.registrationNote }}</span></p>{% endif %}
+        </div>
+      </article>
+{% endmacro %}

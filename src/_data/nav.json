@@ -1,0 +1,30 @@
+{
+  "primary": [
+    { "label": "About", "url": "/about/", "children": [
+      { "label": "Our story", "url": "/about/", "desc": "Who we are, mission and journey" },
+      { "label": "Leadership & team", "url": "/leadership/", "desc": "Founder, presidents and committee" },
+      { "label": "Partners", "url": "/partners/", "desc": "Institutions and organisations we work with" }
+    ]},
+    { "label": "Programs", "url": "/programs/" },
+    { "label": "Events", "url": "/events/" },
+    { "label": "Opportunities", "url": "/opportunities/" },
+    { "label": "Community", "url": "/gallery/", "children": [
+      { "label": "Photo gallery", "url": "/gallery/", "desc": "Moments from sessions and events" },
+      { "label": "News & updates", "url": "/news/", "desc": "Announcements and recaps" },
+      { "label": "Become a member", "url": "/join/", "desc": "Benefits and how to join" }
+    ]},
+    { "label": "Resources", "url": "/resources/" },
+    { "label": "Contact", "url": "/contact/" }
+  ],
+  "footer": [
+    { "title": "Association", "links": [
+      { "label": "About MSAR", "url": "/about/" }, { "label": "Leadership & team", "url": "/leadership/" },
+      { "label": "Partners", "url": "/partners/" }, { "label": "News & updates", "url": "/news/" } ]},
+    { "title": "Get involved", "links": [
+      { "label": "Programs", "url": "/programs/" }, { "label": "Events", "url": "/events/" },
+      { "label": "Opportunities", "url": "/opportunities/" }, { "label": "Join MSAR", "url": "/join/" } ]},
+    { "title": "Explore", "links": [
+      { "label": "Photo gallery", "url": "/gallery/" }, { "label": "Resources", "url": "/resources/" },
+      { "label": "Contact", "url": "/contact/" } ]}
+  ]
+}

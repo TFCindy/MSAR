@@ -1,0 +1,45 @@
+---
+layout: layouts/base.njk
+---
+{%- from "partials/macros.njk" import icon, pageHero, eventCard, programCard -%}
+{{ pageHero(kicker, title, summary, [{label: "Programs", url: "/programs/"}, {label: title}], cover, coverAlt) }}
+
+<section class="section section--paper">
+  <div class="container split split--top">
+    <div>
+      <p class="eyebrow">About this program</p>
+      <div class="prose mt-s">{{ content | safe }}</div>
+      {% if tools and tools.length %}
+      <div class="mt-m"><p class="eyebrow">Tools &amp; formats</p><div class="chips mt-s">{% for t in tools %}<span class="tag">{{ t }}</span>{% endfor %}</div></div>
+      {% endif %}
+    </div>
+    <div class="panel" data-reveal="right">
+      <h2 class="h3">What members gain</h2>
+      <ul class="checklist mt-m">{% for o in outcomes %}<li><span class="tick">{{ icon('check') }}</span><span>{{ o }}</span></li>{% endfor %}</ul>
+      <div class="btn-row mt-m"><a href="/join/" class="btn btn--amber">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a><a href="/events/" class="btn btn--outline">See events</a></div>
+    </div>
+  </div>
+</section>
+
+{%- set evs = collections.events | eventsForProgram(page.fileSlug) -%}
+{% if evs.length %}
+<section class="section section--white">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">In action</p>
+      <h2 class="h2">Related events &amp; activities</h2>
+      <div class="head-action"><a class="btn btn--outline" href="/events/">All events {{ icon('arrow', 'icon--arrow') }}</a></div>
+    </div>
+    <div class="grid grid--3" data-reveal-group>{% for ev in evs | limit(6) %}{{ eventCard(ev) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section section--paper">
+  <div class="container">
+    <div class="section-head"><p class="eyebrow">Other programs</p><h2 class="h2">Explore more ways to grow</h2></div>
+    <div class="grid grid--3 rail-mobile" data-reveal-group>
+      {% for p in collections.programs | exceptUrl(page.url) | limit(3) %}{{ programCard(p) }}{% endfor %}
+    </div>
+  </div>
+</section>

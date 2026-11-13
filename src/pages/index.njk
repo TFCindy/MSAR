@@ -1,0 +1,271 @@
+---
+layout: layouts/base.njk
+permalink: /
+isHome: true
+bodyClass: has-hero
+description: "MSAR connects mathematics and statistics students in Rwanda with practical data skills, research, mentors and industry partners — from KoboToolbox and Power BI labs to career sessions with employers."
+---
+{%- from "partials/macros.njk" import icon, mark, eventCard, programCard, galleryItem, dateBadge, featureEvent -%}
+{%- set upcoming = collections.events | upcomingEvents -%}
+{%- set next = upcoming[0] -%}
+{%- set recent = collections.events | pastEvents | limit(3) -%}
+{%- set team = collections.team -%}
+{%- set founder = team[0] -%}
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-media">
+    <img src="/images/events/data-skills-training/lab-01.jpg" alt="" loading="eager" fetchpriority="high" sizes="100vw" style="object-position:72% 35%" data-parallax="0.18">
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <p class="eyebrow" data-enter style="--d:0">{{ site.fullName }}</p>
+      <h1 id="hero-title" class="display" data-enter style="--d:120">From theory to <em>practice.</em><br>From classroom to <em>career.</em></h1>
+      <p class="lede" data-enter style="--d:260">We are a student-led community connecting mathematics and statistics with the skills, research and people that turn a degree into a future — from KoboToolbox and Power&nbsp;BI labs to career sessions with employers.</p>
+      <div class="btn-row" data-enter style="--d:380">
+        <a href="/join/" class="btn btn--amber">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a>
+        <a href="/events/" class="btn btn--ghost">Explore our activities</a>
+      </div>
+      <div class="hero-meta" data-enter style="--d:500">
+        <span>Since {{ site.founded }}</span><span>UR–CST, Kigali</span><span>{{ site.stats.items[0].value }}{{ site.stats.items[0].suffix }} members</span><span>{{ site.stats.items[2].value }} alumni</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Dock: next event + join -->
+<div class="hero-dock">
+  <div class="container">
+    <div class="dock" data-reveal>
+      {% if next %}
+      <a class="dock-panel dock-event" href="{{ next.url }}" style="text-decoration:none" data-event-start="{{ next.data | startISO }}" data-event-end="{{ next.data | endISO }}" data-status-mode="auto">
+        {% if next.data.poster %}<span class="dock-thumb"><img src="{{ next.data.poster }}" alt="" sizes="96px" eleventy:widths="480"></span>{% endif %}
+        <span>
+          <span class="dock-label">Next up · {{ next.data.category }}</span>
+          <h2>{{ next.data.title }}</h2>
+          <span class="dock-when" style="display:block">{{ next.data.startDate | weekday }}, {{ next.data | eventDateLabel }}{% if next.data.startTime %} · {{ next.data | timeRange }}{% endif %}</span>
+          <span class="countdown mt-s" data-countdown="{{ next.data | startISO }}" hidden aria-label="Time until the event starts" style="margin-top:10px"><b data-d>0</b>d <b data-h>00</b>h <b data-m>00</b>m</span>
+        </span>
+      </a>
+      {% else %}
+      <a class="dock-panel dock-event" href="/events/" style="text-decoration:none">
+        <span><span class="dock-label">Events</span><h2>See what MSAR has been up to</h2><span class="dock-when" style="display:block">Trainings, fellowship sessions, guest talks and more</span></span>
+      </a>
+      {% endif %}
+      <div class="dock-panel dock-join">
+        <div class="avatars" aria-hidden="true">{% for m in team | limit(4) %}<img src="{{ m.data.photo }}" alt="" sizes="40px" eleventy:widths="480">{% endfor %}<span>{{ site.stats.items[0].value }}+</span></div>
+        <h2>Join a community that shows up for each other</h2>
+        <p>Open to mathematics and statistics students at every year of study.</p>
+        <a href="/join/" class="link-arrow">Become a member {{ icon('arrow') }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section class="section section--paper" aria-labelledby="about-title">
+  <div class="container split">
+    <div class="collage" data-reveal="zoom">
+      <div class="c-main"><img src="/images/events/data-skills-training/group-01.jpg" alt="MSAR members gathered for a group photo in a training room at UR–CST" sizes="(max-width: 1024px) 80vw, 480px" data-parallax="0.06"></div>
+      <div class="c-sub"><img src="/images/events/data-skills-training/lab-13.jpg" alt="Two MSAR members smiling while working at a laptop" sizes="(max-width: 1024px) 50vw, 320px"></div>
+      <div class="c-stat"><b>{{ site.founded }}</b><span>From a study circle<br>to a community</span></div>
+    </div>
+    <div>
+      <p class="eyebrow">Who we are</p>
+      <h2 id="about-title" class="h2 mt-s">A few students solving problems together. Now, {{ mark("a community of " + site.stats.items[0].value + "+") }}</h2>
+      <p class="lede mt-m">MSAR began in {{ site.founded }} as statistics students meeting to enjoy maths — puzzles, games and questions, nothing official. Students from other years kept joining. Today we are the {{ site.fullName }}: a professional student association focused on mathematics, statistics, data science, research and careers.</p>
+      <ul class="checklist mt-m">
+        <li><span class="tick">{{ icon('check') }}</span><span><strong>Learn by doing</strong>Hands-on training in the tools analysts actually use.</span></li>
+        <li><span class="tick">{{ icon('check') }}</span><span><strong>Learn from each other</strong>Peer sessions across years, campuses and alumni.</span></li>
+        <li><span class="tick">{{ icon('check') }}</span><span><strong>Connect to opportunity</strong>Partners, mentors and career sessions with industry.</span></li>
+      </ul>
+      <div class="btn-row mt-m"><a href="/about/" class="btn btn--outline">Our story {{ icon('arrow', 'icon--arrow') }}</a><a href="/leadership/" class="link-arrow">Meet the leadership {{ icon('arrow') }}</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MISSION STATEMENT ============ -->
+<section class="section section--white section--tight" aria-label="Our mission">
+  <div class="container">
+    <p class="eyebrow">Our mission</p>
+    <p class="statement mt-m" data-scrub>To unite and support students in mathematics and statistics through <em>academic excellence,</em> <em>professional growth,</em> and <em>real-world applications.</em></p>
+    <div class="pillars mt-l" data-reveal-group>
+      <div class="pillar" data-reveal><span class="num">01</span><h3>Academic excellence</h3><p>Strong foundations in mathematics and statistics, built together.</p></div>
+      <div class="pillar" data-reveal><span class="num">02</span><h3>Practical skills</h3><p>KoboToolbox, Excel, Power BI, QGIS, Python and AI tools — hands on.</p></div>
+      <div class="pillar" data-reveal><span class="num">03</span><h3>Professional growth</h3><p>Career sessions, mentors, alumni and partners in industry.</p></div>
+      <div class="pillar" data-reveal><span class="num">04</span><h3>Community</h3><p>A network that starts in first year and lasts beyond graduation.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMS ============ -->
+<section class="section section--paper" aria-labelledby="programs-title">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">What we do</p>
+      <h2 id="programs-title" class="h2">Programs designed to {{ mark("move you forward") }}</h2>
+      <p class="lede">Six connected programs take members from fundamentals to real-world practice — and into the professional world.</p>
+      <div class="head-action"><a href="/programs/" class="btn btn--outline">All programs {{ icon('arrow', 'icon--arrow') }}</a></div>
+    </div>
+    <p class="rail-hint">Swipe to explore →</p>
+    <div class="grid grid--3 rail-mobile" data-reveal-group>
+      {% for p in collections.programs %}{{ programCard(p) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT ============ -->
+<section class="section section--navy section--rounded impact" aria-labelledby="impact-title">
+  <div class="container impact-grid">
+    <div>
+      <p class="eyebrow">Our impact</p>
+      <h2 id="impact-title" class="h2 mt-s">Consistent work, <em>measurable</em> growth.</h2>
+      <p class="lede mt-m">Every number here is a person who showed up — to a lab, a fellowship session or a career talk.</p>
+      <div class="impact-highlights">
+        {% for h in site.stats.highlights %}<div><b>{{ h.value }}</b><span>{{ h.label }}</span></div>{% endfor %}
+      </div>
+    </div>
+    <div data-inview>
+      <div class="chart" role="list" aria-label="MSAR in numbers">
+        {%- set maxv = site.stats.items[0].value -%}
+        {% for s in site.stats.items %}
+        <div class="bar" role="listitem" style="--h: {{ ((s.value / maxv) * 92) | round }}%">
+          <span class="bar-value" data-count="{{ s.value }}" data-suffix="{{ s.suffix }}">{{ s.value }}{{ s.suffix }}</span>
+          <span class="bar-label">{{ s.label }}</span>
+          <span class="bar-detail">{{ s.detail }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      <p class="impact-note">{{ site.stats.note }} As of {{ site.stats.asOf }}.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ UPCOMING ============ -->
+<section class="section section--paper" aria-labelledby="upcoming-title">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">Upcoming</p>
+      <h2 id="upcoming-title" class="h2">Don't miss {{ mark("what's next") }}</h2>
+      <div class="head-action"><a href="/events/#upcoming" class="btn btn--outline">All upcoming events {{ icon('arrow', 'icon--arrow') }}</a></div>
+    </div>
+    {% if next %}
+    <div data-upcoming-list>
+      {{ featureEvent(next) }}
+      {% if upcoming.length > 1 %}
+      <div class="grid grid--3 mt-m" data-reveal-group>{% for ev in upcoming | skip(1) | limit(3) %}{{ eventCard(ev) }}{% endfor %}</div>
+      {% endif %}
+    </div>
+    <div class="empty-state" data-upcoming-empty hidden><h3>New dates coming soon</h3><p>Join MSAR or follow us on LinkedIn to hear about the next session first.</p></div>
+    {% else %}
+    <div class="empty-state"><h3>New dates coming soon</h3><p>Join MSAR or follow us on LinkedIn to hear about the next session first.</p></div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ============ RECENT ============ -->
+<section class="section section--white" aria-labelledby="recent-title">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">Recent activities</p>
+      <h2 id="recent-title" class="h2">What we've been doing</h2>
+      <p class="lede">Trainings, fellowship sessions and gatherings from across the MSAR community.</p>
+      <div class="head-action"><a href="/events/" class="btn btn--outline">View all events {{ icon('arrow', 'icon--arrow') }}</a></div>
+    </div>
+    <div class="grid grid--3 rail-mobile" data-reveal-group>{% for ev in recent %}{{ eventCard(ev) }}{% endfor %}</div>
+  </div>
+</section>
+
+<!-- ============ MOMENTS ============ -->
+<section class="section section--paper" aria-labelledby="moments-title">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">Recent moments</p>
+      <h2 id="moments-title" class="h2">Real people. {{ mark("Real progress.") }}</h2>
+      <div class="head-action"><a href="/gallery/" class="btn btn--outline">Open the gallery {{ icon('camera') }}</a></div>
+    </div>
+    <div class="masonry" data-lightbox data-reveal="fade">
+      {%- set picks = [
+        ["/images/events/data-skills-certificates/cohort-group-02.jpg", "The Data Skills Training cohort with their certificates", "data-skills-certificate-ceremony", "Certificate Ceremony"],
+        ["/images/events/data-skills-training/lab-07.jpg", "Hands-on practice in the lab", "data-skills-training-2026", "Data Skills Training"],
+        ["/images/events/gikondo-fellowship/activity-01.jpg", "An interactive fellowship session", "gikondo-fellowship-sessions", "Fellowship — Gikondo"],
+        ["/images/events/data-skills-certificates/panel-02.jpg", "A speaker sharing his experience", "data-skills-certificate-ceremony", "Certificate Ceremony"],
+        ["/images/events/data-skills-training/lab-09.jpg", "Every learner hands on", "data-skills-training-2026", "Data Skills Training"],
+        ["/images/events/data-skills-certificates/certificate-06.jpg", "Certificate presentation", "data-skills-certificate-ceremony", "Certificate Ceremony"],
+        ["/images/events/guest-talk-dec-2025/chalkboard.jpg", "A guest speaker at the board", "guest-talk-dec-2025", "Guest Talk"],
+        ["/images/events/data-skills-training/lab-14.jpg", "Comparing results", "data-skills-training-2026", "Data Skills Training"],
+        ["/images/events/data-skills-training/facilitator-01.jpg", "A facilitator walking through the material", "data-skills-training-2026", "Data Skills Training"],
+        ["/images/events/yearly-dinner-2026/dinner-group.jpg", "The MSAR Yearly Dinner 2026", "yearly-dinner-2026", "Yearly Dinner"],
+        ["/images/events/gikondo-fellowship/session-05.jpg", "Problem-solving in the lecture hall", "gikondo-fellowship-sessions", "Fellowship — Gikondo"],
+        ["/images/events/data-skills-certificates/hosts-on-stage.jpg", "Hosts opening the ceremony", "data-skills-certificate-ceremony", "Certificate Ceremony"]
+      ] -%}
+      {% for p in picks %}{{ galleryItem(p[0], p[1], p[3], "/events/" + p[2] + "/") }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOICE ============ -->
+{% if founder %}
+<section class="section section--white" aria-label="A word from our founder">
+  <div class="container founder">
+    <div class="founder-photo" data-reveal="clip"><img src="{{ founder.data.photo }}" alt="Portrait of {{ founder.data.name }}, founder of MSAR" sizes="(max-width: 860px) 90vw, 420px"></div>
+    <figure data-reveal>
+      <blockquote class="quote">{{ founder.data.quote }}</blockquote>
+      <figcaption class="cite"><span><strong>{{ founder.data.name }}</strong><span>{{ founder.data.role }}, MSAR</span></span></figcaption>
+      <a href="/leadership/" class="link-arrow mt-m">Meet the people behind MSAR {{ icon('arrow') }}</a>
+    </figure>
+  </div>
+</section>
+{% endif %}
+
+<!-- ============ PARTNERS ============ -->
+<section class="section section--paper section--tight" aria-labelledby="partners-title">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <p class="eyebrow">Partners &amp; collaborators</p>
+      <h2 id="partners-title" class="h2">Working with institutions and industry</h2>
+    </div>
+    <div class="partner-row" data-reveal-group>
+      {% for p in partners.partners %}
+      <a class="partner-tile" href="/partners/#{{ p.short | slugify }}" data-reveal>
+        {% if p.logo %}<img src="{{ p.logo }}" alt="{{ p.name }} logo" eleventy:ignore>{% else %}<span class="partner-mark">{{ p.name }}</span>{% endif %}
+        <span class="partner-type">{{ p.type }}</span>
+      </a>
+      {% endfor %}
+      <a class="partner-tile" href="/contact/?topic=partnership" style="background:var(--navy);border-color:var(--navy)" data-reveal>
+        <span class="partner-mark" style="color:var(--white);font-size:1.25rem">Partner with us</span>
+        <span class="partner-type" style="color:var(--amber)">Get in touch →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ + JOIN ============ -->
+<section class="section section--white" aria-labelledby="faq-title">
+  <div class="container split split--top">
+    <div>
+      <p class="eyebrow">Questions &amp; answers</p>
+      <h2 id="faq-title" class="h2 mt-s">Thinking about joining?</h2>
+      <p class="lede mt-m">Everything you need to know before your first session. Still curious? We're one message away.</p>
+      <div class="btn-row mt-m"><a href="/join/" class="btn btn--amber">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a><a href="/contact/" class="btn btn--outline">Ask a question</a></div>
+    </div>
+    <div class="faq">
+      {% for f in faqs.items %}
+      <details {% if loop.first %}open{% endif %}><summary>{{ f.q }}<span class="pm">{{ icon('plus') }}</span></summary><div class="answer">{{ f.a }}</div></details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="section section--paper section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal="zoom">
+      <div>
+        <h2 class="h2">Your next step in maths &amp; stats <em>starts here.</em></h2>
+        <p>Join a community of {{ site.stats.items[0].value }}+ students building skills, confidence and connections — one session at a time.</p>
+      </div>
+      <div class="btn-row"><a href="/join/" class="btn btn--amber">Become a member {{ icon('arrow', 'icon--arrow') }}</a><a href="/programs/" class="btn btn--ghost">Explore programs</a></div>
+    </div>
+  </div>
+</section>

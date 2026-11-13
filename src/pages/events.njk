@@ -1,0 +1,64 @@
+---
+layout: layouts/base.njk
+permalink: /events/
+title: Events & Activities
+description: "Upcoming MSAR events and the full archive of trainings, fellowship sessions, career sessions, guest talks and community gatherings."
+ogImage: /images/events/data-skills-certificates/cohort-group-02.jpg
+---
+{%- from "partials/macros.njk" import icon, mark, pageHero, eventCard, featureEvent -%}
+{%- set upcoming = collections.events | upcomingEvents -%}
+{%- set years = collections.events | eventYears -%}
+{%- set cats = collections.events | eventCategories -%}
+{{ pageHero("Events & activities", "What's on — and what we've <em>been up to.</em>", "Register for upcoming sessions, then browse the archive of trainings, fellowship sessions, career talks and community gatherings — with photos from each.", [{label: "Events"}]) }}
+
+<section class="section section--paper" id="upcoming" aria-labelledby="up-title">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">Upcoming</p>
+      <h2 id="up-title" class="h2">Coming up next</h2>
+      <p class="lede">Register, add sessions to your calendar, and bring a friend.</p>
+    </div>
+    {% if upcoming.length %}
+    <div data-upcoming-list>
+      {{ featureEvent(upcoming[0]) }}
+      {% if upcoming.length > 1 %}<div class="grid grid--3 mt-m" data-reveal-group>{% for ev in upcoming | skip(1) %}{{ eventCard(ev) }}{% endfor %}</div>{% endif %}
+    </div>
+    <div class="empty-state" data-upcoming-empty hidden><h3>New dates coming soon</h3><p>Join MSAR or follow us on <a href="{{ site.socials[0].url }}">LinkedIn</a> to hear about the next session first.</p></div>
+    {% else %}
+    <div class="empty-state"><h3>New dates coming soon</h3><p>Join MSAR or follow us on <a href="{{ site.socials[0].url }}">LinkedIn</a> to hear about the next session first.</p></div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section section--white" id="archive" aria-labelledby="all-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Archive</p>
+      <h2 id="all-title" class="h2">All events &amp; activities</h2>
+    </div>
+    <div class="filters" data-filter-root="#event-grid" data-filter-empty="#event-empty">
+      <div class="filter-group" role="group" aria-label="Filter by category">
+        <button type="button" class="filter-btn" data-filter-cat="all" aria-pressed="true">All</button>
+        {% for c in cats %}<button type="button" class="filter-btn" data-filter-cat="{{ c }}" aria-pressed="false">{{ c }}</button>{% endfor %}
+      </div>
+      <div class="filter-group" style="align-items:center;gap:14px">
+        <label class="visually-hidden" for="year-filter">Filter by year</label>
+        <select id="year-filter" class="select" data-filter-year><option value="all">All years</option>{% for y in years %}<option value="{{ y }}">{{ y }}</option>{% endfor %}</select>
+        <span class="filter-count" data-filter-count aria-live="polite">{{ collections.events.length }} items</span>
+      </div>
+    </div>
+    <div class="grid grid--3" id="event-grid" data-reveal-group>
+      {% for ev in collections.events %}{{ eventCard(ev) }}{% endfor %}
+    </div>
+    <div class="empty-state mt-m" id="event-empty" hidden><h3>No events match those filters</h3><p>Try another category or year.</p></div>
+  </div>
+</section>
+
+<section class="section section--paper section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal="zoom">
+      <div><h2 class="h2">Don't want to miss a <em>session?</em></h2><p>Join MSAR and we'll make sure you hear about every upcoming event.</p></div>
+      <div class="btn-row"><a href="/join/" class="btn btn--amber">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a><a href="/gallery/" class="btn btn--ghost">Photo gallery</a></div>
+    </div>
+  </div>
+</section>

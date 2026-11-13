@@ -1,0 +1,70 @@
+---
+layout: layouts/base.njk
+permalink: /gallery/
+title: Photo Gallery
+description: "Moments from MSAR trainings, fellowship sessions, certificate ceremonies, guest talks and community gatherings."
+ogImage: /images/events/data-skills-training/lab-07.jpg
+---
+{%- from "partials/macros.njk" import icon, pageHero, galleryItem -%}
+{%- set withGal = collections.events | withGallery -%}
+{%- set photos = collections.events | allGalleryPhotos(albums.albums) -%}
+{{ pageHero("Photo gallery", "Moments that make <em>MSAR.</em>", "Every photo here is from a real MSAR session, training or gathering. Browse by album, or open any photo to see it full-size.", [{label: "Community", url: "/gallery/"}, {label: "Gallery"}]) }}
+
+<section class="section section--paper" aria-labelledby="albums-title">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">Albums</p>
+      <h2 id="albums-title" class="h2">Event collections</h2>
+      <p class="head-action filter-count">{{ photos.length }} photos · {{ withGal.length + albums.albums.length }} albums</p>
+    </div>
+    <div class="grid grid--3" data-reveal-group>
+      {% for ev in withGal %}
+      <article class="card album-card" data-reveal>
+        <div class="card-media"><img src="{{ ev.data.gallery[0].image }}" alt="{{ ev.data.gallery[0].caption }}" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"><span class="chip chip--glass album-count">{{ icon('camera') }} {{ ev.data.gallery.length }}</span></div>
+        <div class="card-body"><span class="program-kicker">{{ ev.data.dateDisplay or (ev.data.startDate | shortDate) }} · {{ ev.data.category }}</span><h3 class="card-title"><a href="{{ ev.url }}#gallery">{{ ev.data.title }}</a></h3></div>
+      </article>
+      {% endfor %}
+      {% for a in albums.albums %}
+      <article class="card album-card" data-reveal>
+        <div class="card-media"><img src="{{ a.photos[0].image }}" alt="{{ a.photos[0].caption }}" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"><span class="chip chip--glass album-count">{{ icon('camera') }} {{ a.photos.length }}</span></div>
+        <div class="card-body"><span class="program-kicker">{{ a.year }} · Archive</span><h3 class="card-title"><a href="#all-photos" data-album-link="{{ a.slug }}">{{ a.title }}</a></h3><p class="card-text">{{ a.description }}</p></div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--white" id="all-photos" aria-labelledby="all-photos-title">
+  <div class="container container--wide">
+    <div class="section-head section-head--center"><p class="eyebrow">All photos</p><h2 id="all-photos-title" class="h2">Browse every moment</h2></div>
+    <div class="filters" data-filter-root="#photo-grid">
+      <div class="filter-group" role="group" aria-label="Filter photos by album">
+        <button type="button" class="filter-btn" data-filter-cat="all" aria-pressed="true">All</button>
+        {% for ev in withGal %}{% if ev.data.gallery.length > 1 %}<button type="button" class="filter-btn" data-filter-cat="{{ ev.page.fileSlug }}" aria-pressed="false">{{ ev.data.title | replace("MSAR ", "") | truncate(34) }}</button>{% endif %}{% endfor %}
+        {% for a in albums.albums %}<button type="button" class="filter-btn" data-filter-cat="{{ a.slug }}" aria-pressed="false">{{ a.title }}</button>{% endfor %}
+      </div>
+      <span class="filter-count" data-filter-count aria-live="polite">{{ photos.length }} items</span>
+    </div>
+    <div class="masonry" id="photo-grid" data-lightbox data-all>
+      {% for ph in photos %}{{ galleryItem(ph.image, ph.caption, ph.album, ph.url, "(max-width: 640px) 50vw, 340px", 'data-filter-item data-cat="' + ph.albumSlug + '" data-year="' + ph.year + '"') }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--paper">
+  <div class="container split">
+    <div>
+      <p class="eyebrow">Watch</p>
+      <h2 class="h2 mt-s">Inside an MSAR session</h2>
+      <p class="lede mt-m">A short look inside a real MSAR session — members working through problems together at the board and in small groups.</p>
+    </div>
+    <div style="border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-lg);background:var(--navy-900)" data-reveal="zoom">
+      <video controls preload="none" playsinline poster="/assets/video/recap-poster.jpg" style="width:100%;aspect-ratio:16/9;object-fit:cover"><source src="/assets/video/msar-session-recap.mp4" type="video/mp4">Your browser does not support embedded video.</video>
+    </div>
+  </div>
+</section>
+<script>
+  document.querySelectorAll('[data-album-link]').forEach(function (a) {
+    a.addEventListener('click', function () { var b = document.querySelector('[data-filter-cat="' + a.getAttribute('data-album-link') + '"]'); if (b) b.click(); });
+  });
+</script>

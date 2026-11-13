@@ -1,0 +1,52 @@
+---
+layout: layouts/base.njk
+permalink: /partners/
+title: Partners & Collaborations
+description: "The institutions and organisations MSAR works with — including the University of Rwanda, DATA+ Rwanda and Jobra — and how to partner with us."
+---
+{%- from "partials/macros.njk" import icon, pageHero -%}
+{{ pageHero("Partners & collaborations", "Stronger <em>together.</em>", "MSAR works with academic institutions and organisations to bring practical training, career insight and real-world perspective to mathematics and statistics students.", [{label: "About", url: "/about/"}, {label: "Partners"}]) }}
+
+<section class="section section--paper">
+  <div class="container container--narrow" style="max-width:calc(1000px + var(--gutter)*2)">
+    <div class="stack" style="--stack:18px" data-reveal-group>
+      {% for p in partners.partners %}
+      <article class="partner-card" id="{{ p.short | slugify }}" data-reveal>
+        <div class="logo-box">{% if p.logo %}<img src="{{ p.logo }}" alt="{{ p.name }} logo" eleventy:ignore>{% else %}<span class="partner-mark" style="font-size:1.3rem">{{ p.short }}</span>{% endif %}</div>
+        <div>
+          <div class="chips"><span class="chip chip--amber">{{ p.relationship }}</span><span class="chip">{{ p.type }}</span></div>
+          <h2 class="h3 mt-s">{{ p.name }}</h2>
+          <p>{{ p.description }}</p>
+          {% if p.website %}<a class="link-arrow mt-s" href="{{ p.website }}" target="_blank" rel="noopener noreferrer">Visit website {{ icon('arrow-up-right') }}</a>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--white">
+  <div class="container">
+    <div class="section-head section-head--center"><p class="eyebrow">Work with us</p><h2 class="h2">Ways to partner with MSAR</h2><p class="lede">Reach motivated mathematics and statistics students — and help shape the next generation of analysts, researchers and data professionals in Rwanda.</p></div>
+    <div class="grid grid--3" data-reveal-group>
+      {%- set ways = [
+        ["award", "Deliver a training", "Run a hands-on session or short course on a tool or method your organisation uses."],
+        ["briefcase", "Career sessions", "Share what you look for in graduates, review profiles and talk about roles."],
+        ["users", "Guest talks & mentoring", "Tell your story, answer questions and mentor students one-to-one."],
+        ["flask", "Research questions", "Bring a real question or dataset for students to explore with guidance."],
+        ["handshake", "Internships & placements", "Explore structured opportunities for members to gain experience."],
+        ["sparkle", "Support our events", "Host, sponsor or co-organise trainings, competitions and gatherings."]
+      ] -%}
+      {% for w in ways %}<div class="benefit" data-reveal><span class="b-ico">{{ icon(w[0]) }}</span><h3>{{ w[1] }}</h3><p>{{ w[2] }}</p></div>{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--paper section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal="zoom">
+      <div><h2 class="h2">Let's build something <em>together.</em></h2><p>Tell us a little about your organisation and what you have in mind.</p></div>
+      <div class="btn-row"><a href="/contact/?topic=partnership" class="btn btn--amber">Start a conversation {{ icon('arrow', 'icon--arrow') }}</a><a href="mailto:{{ site.email }}" class="btn btn--ghost">{{ site.email }}</a></div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,10 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for p in collections.all %}{% if p.url and p.url.endsWith('/') and not p.data.draft %}
+  <url><loc>{{ p.url | absoluteUrl(site.url) }}</loc>{% if p.date %}<lastmod>{{ p.date | isoDate }}</lastmod>{% endif %}<priority>{% if p.url == '/' %}1.0{% elif p.url.startsWith('/events/') %}0.8{% else %}0.6{% endif %}</priority></url>
+{%- endif %}{% endfor %}
+</urlset>

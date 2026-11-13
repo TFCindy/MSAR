@@ -1,0 +1,38 @@
+{%- from "partials/macros.njk" import icon -%}
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="/" aria-label="MSAR home">
+          <img src="/images/brand/msar-badge.png" alt="" width="46" height="46" eleventy:ignore>
+          <span class="brand-text"><span class="brand-name">MSAR</span><span class="brand-sub">Maths &amp; Stats Students · Rwanda</span></span>
+        </a>
+        <p>The {{ site.fullName }} — a student-led community connecting mathematics and statistics with practical skills, research, and careers. Based at UR–CST, Kigali, since {{ site.founded }}.</p>
+        <div class="socials">
+          {% for s in site.socials %}<a href="{{ s.url }}" target="_blank" rel="noopener noreferrer" aria-label="MSAR on {{ s.name }}">{{ icon(s.icon, 'icon--fill') }}</a>{% endfor %}
+          <a href="mailto:{{ site.email }}" aria-label="Email MSAR">{{ icon('mail') }}</a>
+        </div>
+      </div>
+      {% for col in nav.footer %}
+      <div>
+        <h2>{{ col.title }}</h2>
+        <ul class="footer-links">{% for l in col.links %}<li><a href="{{ l.url }}">{{ l.label }}</a></li>{% endfor %}</ul>
+      </div>
+      {% endfor %}
+      <div class="footer-cta">
+        <h2>Get in touch</h2>
+        <div class="footer-contact">
+          <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+          <a href="tel:{{ site.phoneHref }}">{{ site.phone }}</a>
+          <span>University of Rwanda — CST<br>Nyarugenge Campus, Kigali</span>
+        </div>
+        <a href="/join/" class="btn btn--amber btn--sm mt-s">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a>
+      </div>
+    </div>
+    <p class="footer-wordmark" aria-hidden="true">MSAR</p>
+    <div class="footer-bottom">
+      <span>&copy; <span data-current-year>{{ build.year }}</span> {{ site.fullName }}. All rights reserved.</span>
+      <span>Built by and for Rwanda's mathematics &amp; statistics students.</span>
+    </div>
+  </div>
+</footer>

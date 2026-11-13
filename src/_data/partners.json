@@ -1,0 +1,31 @@
+{
+  "partners": [
+    {
+      "name": "University of Rwanda",
+      "short": "UR",
+      "type": "Academic home",
+      "relationship": "Host institution",
+      "description": "MSAR is based at the University of Rwanda's College of Science and Technology, where most of our sessions and trainings take place. Our fellowship sessions also bring students together at the Gikondo campus.",
+      "website": "https://ur.ac.rw",
+      "logo": ""
+    },
+    {
+      "name": "DATA+ Rwanda",
+      "short": "DATA+",
+      "type": "Training collaboration",
+      "relationship": "Collaborator",
+      "description": "Through our collaboration with DATA+ Rwanda, five selected MSAR students took part in professional geospatial data analytics training covering QGIS, Google Earth Engine, Python and practical spatial analysis.",
+      "website": "",
+      "logo": ""
+    },
+    {
+      "name": "Jobra",
+      "short": "Jobra",
+      "type": "Career development",
+      "relationship": "Collaborator",
+      "description": "MSAR and Jobra are working together to connect students with career insights, talent profiling, mentorship and industry exposure — starting with a joint career development session in November 2026.",
+      "website": "",
+      "logo": ""
+    }
+  ]
+}

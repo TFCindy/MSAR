@@ -1,0 +1,34 @@
+{
+  "msarMaterials": [],
+  "groups": [
+    {
+      "title": "Data collection & management",
+      "items": [
+        { "name": "KoboToolbox Help Center", "desc": "Official guides for building questionnaires, collecting data offline and exporting results.", "url": "https://support.kobotoolbox.org/", "tag": "KoboToolbox" },
+        { "name": "Microsoft Excel help & learning", "desc": "Official tutorials for formulas, lookup functions, PivotTables and data cleaning.", "url": "https://support.microsoft.com/en-us/excel", "tag": "Excel" }
+      ]
+    },
+    {
+      "title": "Analysis & visualisation",
+      "items": [
+        { "name": "Power BI learning paths", "desc": "Free Microsoft Learn modules for building reports and dashboards in Power BI.", "url": "https://learn.microsoft.com/en-us/training/powerplatform/power-bi", "tag": "Power BI" },
+        { "name": "The Python Tutorial", "desc": "The official introduction to Python programming from python.org.", "url": "https://docs.python.org/3/tutorial/", "tag": "Python" },
+        { "name": "R for Data Science (2e)", "desc": "A free online book on importing, tidying, transforming and visualising data in R.", "url": "https://r4ds.hadley.nz/", "tag": "R" }
+      ]
+    },
+    {
+      "title": "Geospatial analysis",
+      "items": [
+        { "name": "QGIS Training Manual", "desc": "The official, free training manual for the QGIS desktop GIS.", "url": "https://docs.qgis.org/latest/en/docs/training_manual/", "tag": "QGIS" },
+        { "name": "Google Earth Engine guides", "desc": "Developer guides for analysing satellite imagery and geospatial datasets at scale.", "url": "https://developers.google.com/earth-engine/guides", "tag": "Earth Engine" }
+      ]
+    },
+    {
+      "title": "Statistics & official data",
+      "items": [
+        { "name": "OpenIntro Statistics", "desc": "A free, open-source introductory statistics textbook.", "url": "https://www.openintro.org/book/os/", "tag": "Statistics" },
+        { "name": "National Institute of Statistics of Rwanda", "desc": "Official statistics, survey reports and datasets about Rwanda.", "url": "https://www.statistics.gov.rw/", "tag": "Rwanda data" }
+      ]
+    }
+  ]
+}

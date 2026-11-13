@@ -1,0 +1,32 @@
+---
+layout: layouts/base.njk
+ogType: article
+---
+{%- from "partials/macros.njk" import icon, newsCard -%}
+<article>
+  <section class="page-hero">
+    <div class="container container--narrow">
+      <nav aria-label="Breadcrumb"><ol class="breadcrumb"><li><a href="/">Home</a></li><li><a href="/news/">News</a></li><li><span aria-current="page">{{ category }}</span></li></ol></nav>
+      <div class="chips mt-m"><span class="chip chip--amber">{{ category }}</span><time class="chip chip--glass" datetime="{{ page.date | isoDate }}">{{ page.date | shortDate }}</time></div>
+      <h1 class="h1" style="max-width:24ch;font-size:clamp(2rem,1.4rem + 2.6vw,3.4rem)">{{ title }}</h1>
+      <p class="lede">{{ summary }}</p>
+    </div>
+  </section>
+  {% if cover %}
+  <div class="container container--narrow" style="margin-top:-1px">
+    <div class="card-media" style="border-radius:0 0 var(--r-lg) var(--r-lg);aspect-ratio:16/9"><img src="{{ cover }}" alt="{{ coverAlt or '' }}" loading="eager" sizes="(max-width: 900px) 100vw, 820px"></div>
+  </div>
+  {% endif %}
+  <section class="section section--tight">
+    <div class="container container--narrow">
+      <div class="prose">{{ content | safe }}</div>
+      {% if event %}<p class="mt-m"><a class="btn btn--outline" href="/events/{{ event }}/">View the event {{ icon('arrow', 'icon--arrow') }}</a></p>{% endif %}
+    </div>
+  </section>
+</article>
+<section class="section section--white">
+  <div class="container">
+    <div class="section-head section-head--split"><p class="eyebrow">News &amp; updates</p><h2 class="h2">More from MSAR</h2><div class="head-action"><a href="/news/" class="btn btn--outline">All news {{ icon('arrow', 'icon--arrow') }}</a></div></div>
+    <div class="grid grid--3 rail-mobile" data-reveal-group>{% for n in collections.news | exceptUrl(page.url) | limit(3) %}{{ newsCard(n) }}{% endfor %}</div>
+  </div>
+</section>

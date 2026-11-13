@@ -1,0 +1,81 @@
+<!doctype html>
+{%- from "partials/macros.njk" import icon -%}
+{%- set nextEvent = (collections.events | upcomingEvents)[0] -%}
+{%- set pageTitle = (title + " | " + site.name) if title and not isHome else (site.name + " — " + site.fullName) -%}
+{%- set pageDesc = description or summary or site.description -%}
+{%- set shareImage = ogImage or cover or site.ogImage -%}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ pageTitle }}</title>
+<meta name="description" content="{{ pageDesc | stripHtml | truncate(165) }}">
+<link rel="canonical" href="{{ page.url | absoluteUrl(site.url) }}">
+<meta name="theme-color" content="#1e3a66">
+<meta name="google-site-verification" content="Pkn2kWtcAAblzu0n_KGeGfn92EVPQPT6pmPl1KHay5c">
+<meta property="og:type" content="{{ ogType or 'website' }}">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:title" content="{{ title or site.fullName }}">
+<meta property="og:description" content="{{ pageDesc | stripHtml | truncate(200) }}">
+<meta property="og:url" content="{{ page.url | absoluteUrl(site.url) }}">
+<meta property="og:image" content="{{ shareImage | absoluteUrl(site.url) }}">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ title or site.fullName }}">
+<meta name="twitter:description" content="{{ pageDesc | stripHtml | truncate(200) }}">
+<meta name="twitter:image" content="{{ shareImage | absoluteUrl(site.url) }}">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:ital,wght@0,400..700;1,400&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="/assets/css/main.css?v={{ build.version }}">
+<script type="application/ld+json">{{ {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": site.fullName,
+  "alternateName": site.name,
+  "url": site.url,
+  "logo": site.url + "/images/brand/msar-badge.png",
+  "email": site.email,
+  "foundingDate": site.founded,
+  "sameAs": [site.socials[0].url],
+  "address": { "@type": "PostalAddress", "addressLocality": "Kigali", "addressCountry": "RW" }
+} | json | safe }}</script>
+{% block head %}{% endblock %}
+</head>
+<body class="{{ bodyClass }}{% if nextEvent %} has-announce{% endif %}">
+<a class="skip-link" href="#main">Skip to content</a>
+{% include "partials/icons.njk" %}
+
+{% if nextEvent %}
+<aside class="announce" aria-label="Announcement" data-hide-when-started="{{ nextEvent.data | endISO }}">
+  <div class="container">
+    <a href="{{ nextEvent.url }}"><span class="pulse" aria-hidden="true"></span><span class="announce-tag">Upcoming</span><span>{{ nextEvent.data.title }} — {{ nextEvent.data.startDate | weekday }}, {{ nextEvent.data.startDate | day }} {{ nextEvent.data.startDate | mon }}</span>{{ icon('arrow') }}</a>
+  </div>
+</aside>
+{% endif %}
+
+{% include "partials/header.njk" %}
+
+<main id="main" tabindex="-1">
+{{ content | safe }}
+</main>
+
+{% include "partials/footer.njk" %}
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <div class="lb-top"><span class="lb-count" aria-live="polite"></span><button type="button" class="lb-btn lb-close" aria-label="Close photo viewer">{{ icon('close') }}</button></div>
+  <div class="lb-stage">
+    <img alt="">
+    <button type="button" class="lb-btn lb-prev" aria-label="Previous photo">{{ icon('chev-left') }}</button>
+    <button type="button" class="lb-btn lb-next" aria-label="Next photo">{{ icon('chev-right') }}</button>
+  </div>
+  <p class="lb-cap"></p>
+</div>
+
+<aside aria-label="Quick contact"><a href="https://wa.me/{{ site.whatsapp }}" class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Message MSAR on WhatsApp">{{ icon('whatsapp', 'icon--fill') }}</a></aside>
+<script src="/assets/js/main.js?v={{ build.version }}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

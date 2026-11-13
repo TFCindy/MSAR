@@ -1,0 +1,66 @@
+---
+layout: layouts/base.njk
+permalink: /leadership/
+title: Leadership & Team
+description: "Meet MSAR's founder and the presidents who have led the Mathematics and Statistics Students' Association of Rwanda year by year."
+---
+{%- from "partials/macros.njk" import icon, pageHero -%}
+{{ pageHero("Leadership & team", "The people behind <em>MSAR.</em>", "Student leaders who have shaped MSAR — from the founder who started it to the presidents who have led it year by year.", [{label: "About", url: "/about/"}, {label: "Leadership"}]) }}
+
+{% for f in collections.team %}{% if f.data.group == 'founder' %}
+<section class="section section--paper">
+  <div class="container founder">
+    <div class="founder-photo" data-reveal="clip"><img src="{{ f.data.photo }}" alt="Portrait of {{ f.data.name }}" sizes="(max-width: 860px) 90vw, 440px"></div>
+    <div>
+      <p class="eyebrow">Where it started · {{ f.data.role }}</p>
+      <h2 class="h2 mt-s">{{ f.data.name }}</h2>
+      <div class="prose mt-m">{{ f.templateContent | safe }}</div>
+      {% if f.data.linkedin %}<a class="link-arrow mt-m" href="{{ f.data.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn profile {{ icon('arrow-up-right') }}</a>{% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}{% endfor %}
+
+<section class="section section--white">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">Leadership</p>
+      <h2 class="h2">Our presidents, year by year</h2>
+      <p class="lede">Each year, a new president takes on the work of growing MSAR and serving its members.</p>
+    </div>
+    <div class="grid grid--4" data-reveal-group>
+      {% for m in collections.team %}{% if m.data.group == 'president' %}
+      <article class="card team-card" data-reveal>
+        <div class="card-media">{% if m.data.photo %}<img src="{{ m.data.photo }}" alt="Portrait of {{ m.data.name }}" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px">{% else %}<span class="avatar-fallback">{{ m.data.name | initials }}</span>{% endif %}<span class="chip chip--solid team-term">{{ m.data.term }}</span></div>
+        <div class="card-body"><span class="team-role">{{ m.data.role }} · {{ m.data.term }}</span><h3 class="team-name">{{ m.data.name }}</h3>{% if m.data.linkedin %}<a class="link-arrow" href="{{ m.data.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn {{ icon('arrow-up-right') }}</a>{% endif %}</div>
+      </article>
+      {% endif %}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{%- set committee = collections.team | byGroup('committee') -%}
+{% if committee.length %}
+<section class="section section--paper">
+  <div class="container">
+    <div class="section-head"><p class="eyebrow">Current committee</p><h2 class="h2">The team running MSAR today</h2></div>
+    <div class="grid grid--4" data-reveal-group>
+      {% for m in committee %}
+      <article class="card team-card" data-reveal>
+        <div class="card-media">{% if m.data.photo %}<img src="{{ m.data.photo }}" alt="Portrait of {{ m.data.name }}" sizes="(max-width: 640px) 100vw, 300px">{% else %}<span class="avatar-fallback">{{ m.data.name | initials }}</span>{% endif %}</div>
+        <div class="card-body"><span class="team-role">{{ m.data.role }}</span><h3 class="team-name">{{ m.data.name }}</h3></div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section section--paper section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal="zoom">
+      <div><h2 class="h2">Lead with <em>MSAR.</em></h2><p>Committee and volunteer roles give members real experience organising trainings, events and partnerships. Join MSAR and let us know you'd like to help.</p></div>
+      <div class="btn-row"><a href="/join/" class="btn btn--amber">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a><a href="/contact/" class="btn btn--ghost">Contact the team</a></div>
+    </div>
+  </div>
+</section>

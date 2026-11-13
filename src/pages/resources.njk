@@ -1,0 +1,52 @@
+---
+layout: layouts/base.njk
+permalink: /resources/
+title: Resources & Publications
+description: "Learning resources for the tools MSAR teaches — KoboToolbox, Excel, Power BI, Python, R, QGIS and Google Earth Engine — plus MSAR session materials."
+---
+{%- from "partials/macros.njk" import icon, pageHero -%}
+{{ pageHero("Resources", "Keep learning between <em>sessions.</em>", "Trusted, free resources for the tools and topics we cover — plus materials from MSAR sessions as they are published.", [{label: "Resources"}]) }}
+
+<section class="section section--paper">
+  <div class="container">
+    <div class="section-head section-head--split"><p class="eyebrow">From MSAR</p><h2 class="h2">Session materials &amp; publications</h2></div>
+    {% if resources.msarMaterials.length %}
+    <div class="grid grid--2" data-reveal-group>
+      {% for r in resources.msarMaterials %}
+      <a class="resource" href="{{ r.file or r.url }}" {% if r.url %}target="_blank" rel="noopener noreferrer"{% endif %} data-reveal>
+        <div><span class="chip">{{ r.type or 'Material' }}</span><h3 class="mt-s">{{ r.title }}</h3><p>{{ r.description }}</p></div><span class="go">{{ icon('download' if r.file else 'arrow-up-right') }}</span>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state"><h3>Materials will appear here</h3><p>Slides, exercise files and reports shared by MSAR facilitators will be published on this page.<br>Members currently receive session materials directly during trainings.</p></div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section section--white">
+  <div class="container">
+    <div class="section-head"><p class="eyebrow">Learning resources</p><h2 class="h2">Recommended, free and official</h2><p class="lede">External resources from the organisations behind each tool. Links open in a new tab.</p></div>
+    {% for g in resources.groups %}
+    <div class="mt-l">
+      <h3 class="h3" style="margin-bottom:18px">{{ g.title }}</h3>
+      <div class="grid grid--2" data-reveal-group>
+        {% for r in g.items %}
+        <a class="resource" href="{{ r.url }}" target="_blank" rel="noopener noreferrer" data-reveal>
+          <div><span class="chip">{{ r.tag }}</span><h4 class="h4 mt-s">{{ r.name }}</h4><p>{{ r.desc }}</p></div><span class="go">{{ icon('arrow-up-right') }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section section--paper section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal="zoom">
+      <div><h2 class="h2">Learn faster <em>together.</em></h2><p>Resources help — but practising with peers and facilitators is how skills stick. Join an MSAR session.</p></div>
+      <div class="btn-row"><a href="/join/" class="btn btn--amber">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a><a href="/programs/data-skills/" class="btn btn--ghost">Data Skills program</a></div>
+    </div>
+  </div>
+</section>

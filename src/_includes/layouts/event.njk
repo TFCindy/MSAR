@@ -1,0 +1,115 @@
+---
+layout: layouts/base.njk
+ogType: article
+---
+{%- from "partials/macros.njk" import icon, genCover, eventCard, galleryItem, statusBadge -%}
+{%- set e = { title: title, startDate: startDate, endDate: endDate, startTime: startTime, endTime: endTime, status: status, series: series, dateDisplay: dateDisplay, category: category } -%}
+{%- set st = e | eventStatus -%}
+{%- set isUpcoming = (st == 'upcoming' or st == 'postponed') and not series -%}
+<article itemscope itemtype="https://schema.org/Event">
+<section class="event-hero" data-event-start="{{ e | startISO }}" data-event-end="{{ e | endISO }}" data-status-mode="{{ 'manual' if series else (status or 'auto') }}">
+  <div class="bg">{% if cover %}<img src="{{ cover }}" alt="" loading="eager" fetchpriority="high" sizes="100vw" data-parallax="0.12">{% else %}{{ genCover(e) }}{% endif %}</div>
+  <div class="container">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb"><li><a href="/">Home</a></li><li><a href="/events/">Events</a></li><li><span aria-current="page">{{ title | truncate(40) }}</span></li></ol></nav>
+    <div class="chips">{{ statusBadge(e) }}<span class="chip chip--glass">{{ category }}</span>{% for p in partners %}<span class="chip chip--glass">with {{ p }}</span>{% endfor %}</div>
+    <h1 itemprop="name">{{ title }}</h1>
+    <p class="lede" style="color:rgba(255,255,255,.85);margin-top:16px;max-width:62ch">{{ summary }}</p>
+  </div>
+</section>
+
+<section class="section section--paper">
+  <div class="container event-layout">
+    <div>
+      <div class="prose" itemprop="description">{{ content | safe }}</div>
+
+      {% if highlights and highlights.length %}
+      <div class="panel mt-m" data-reveal>
+        <h2 class="h4">What you'll gain</h2>
+        <ol class="gain-list">{% for h in highlights %}<li>{{ h }}</li>{% endfor %}</ol>
+      </div>
+      {% endif %}
+
+      {% if tools and tools.length %}
+      <div class="mt-m"><p class="eyebrow">Tools &amp; topics</p><div class="chips mt-s">{% for t in tools %}<span class="tag">{{ t }}</span>{% endfor %}</div></div>
+      {% endif %}
+
+      {% if poster %}
+      <div class="mt-l" data-reveal>
+        <p class="eyebrow">Event flyer</p>
+        <div class="mt-s" data-lightbox><div class="event-poster-inline">{{ galleryItem(poster, posterAlt or title, "", "", "(max-width: 640px) 100vw, 420px") }}</div></div>
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="event-aside" aria-label="Event details">
+      <div class="panel">
+        <h2>Event details</h2>
+        <div class="fact"><span class="ico">{{ icon('calendar') }}</span><div><small>Date</small><strong><time itemprop="startDate" datetime="{{ e | startISO }}">{{ e | eventDateLabel }}</time></strong></div></div>
+        {% if startTime %}<div class="fact"><span class="ico">{{ icon('clock') }}</span><div><small>Time</small><strong>{{ e | timeRange }} <span class="muted small">(Kigali)</span></strong></div></div>{% endif %}
+        {% if location %}<div class="fact" itemprop="location" itemscope itemtype="https://schema.org/Place"><span class="ico">{{ icon('pin') }}</span><div><small>Location</small><strong itemprop="name">{{ location }}</strong><meta itemprop="address" content="{{ location }}"></div></div>{% endif %}
+        {% if audience %}<div class="fact"><span class="ico">{{ icon('users') }}</span><div><small>Who it's for</small><strong>{{ audience }}</strong></div></div>{% endif %}
+        <div class="fact"><span class="ico">{{ icon('tag') }}</span><div><small>Category</small><strong>{{ category }}</strong></div></div>
+      </div>
+
+      {% if isUpcoming %}
+      <div class="panel panel-navy" data-hide-when-started="{{ e | endISO }}">
+        <h2>Join this session</h2>
+        <div class="countdown-lg mt-s" data-countdown="{{ e | startISO }}" hidden aria-label="Time until the event starts">
+          <div><b data-d>0</b><span>days</span></div><div><b data-h>00</b><span>hrs</span></div><div><b data-m>00</b><span>min</span></div><div><b data-s>00</b><span>sec</span></div>
+        </div>
+        <div class="stack mt-s" style="--stack:12px">
+          {% if registrationUrl %}
+          <a class="btn btn--amber btn--block" href="{{ registrationUrl }}" target="_blank" rel="noopener noreferrer">Register now {{ icon('arrow-up-right') }}</a>
+          {% else %}
+          <p class="note" style="color:var(--navy-200)">{{ icon('info') }}<span>{{ registrationNote or "Registration details will be shared on MSAR's official channels." }}</span></p>
+          <a class="btn btn--amber btn--block" href="/join/">Join MSAR to get updates {{ icon('arrow', 'icon--arrow') }}</a>
+          {% endif %}
+          {% if startTime %}<a class="btn btn--ghost btn--block" href="/events/{{ page.fileSlug }}.ics" download>{{ icon('calendar') }} Add to calendar</a>{% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="panel">
+        <h2>Share</h2>
+        <div class="share">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absoluteUrl(site.url) | urlencode }}" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">{{ icon('linkedin', 'icon--fill') }}</a>
+          <a href="https://wa.me/?text={{ (title + ' — ' + (page.url | absoluteUrl(site.url))) | urlencode }}" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp">{{ icon('whatsapp', 'icon--fill') }}</a>
+          <button type="button" data-share aria-label="Copy link" title="Copy link">{{ icon('share') }}</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+{% if gallery and gallery.length %}
+<section class="section section--white" id="gallery">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">Photo gallery</p>
+      <h2 class="h2">Moments from the day</h2>
+      <p class="head-action filter-count">{{ gallery.length }} photo{% if gallery.length != 1 %}s{% endif %}</p>
+    </div>
+    <div class="masonry" data-lightbox data-all>
+      {% for g in gallery %}{{ galleryItem(g.image, g.caption or title) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{%- set related = collections.events | relatedEvents(page, category, 3) -%}
+{%- if related.length < 3 %}{% set related = collections.events | relatedEvents(page, null, 3) %}{% endif -%}
+<section class="section section--paper">
+  <div class="container">
+    <div class="section-head section-head--split">
+      <p class="eyebrow">Keep exploring</p>
+      <h2 class="h2">More from MSAR</h2>
+      <div class="head-action"><a class="btn btn--outline" href="/events/">All events {{ icon('arrow', 'icon--arrow') }}</a></div>
+    </div>
+    <div class="grid grid--3 rail-mobile" data-reveal-group>{% for ev in related %}{{ eventCard(ev) }}{% endfor %}</div>
+  </div>
+</section>
+<meta itemprop="eventStatus" content="https://schema.org/EventScheduled">
+<meta itemprop="eventAttendanceMode" content="https://schema.org/OfflineEventAttendanceMode">
+{% if cover %}<meta itemprop="image" content="{{ cover | absoluteUrl(site.url) }}">{% endif %}
+<span itemprop="organizer" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="{{ site.fullName }}"><meta itemprop="url" content="{{ site.url }}"></span>
+</article>

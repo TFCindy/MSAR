@@ -1,0 +1,79 @@
+---
+layout: layouts/base.njk
+permalink: /join/
+title: Join MSAR
+description: "Become a member of MSAR — practical data-skills training, fellowship sessions, career development and a community of mathematics and statistics students."
+ogImage: /images/events/data-skills-certificates/cohort-group-01.jpg
+---
+{%- from "partials/macros.njk" import icon, mark, pageHero -%}
+{% call pageHero("Membership", "Join a community that <em>shows up.</em>", "MSAR membership is open to mathematics and statistics students at every year of study. Join " + site.stats.items[0].value + "+ students building skills, confidence and connections.", [{label: "Join MSAR"}], "/images/events/data-skills-certificates/cohort-group-01.jpg", "MSAR training participants holding their certificates") %}
+<div class="btn-row"><a href="#apply" class="btn btn--amber">Apply now {{ icon('arrow', 'icon--arrow') }}</a><a href="#benefits" class="btn btn--ghost">Member benefits</a></div>
+{% endcall %}
+
+<section class="section section--paper" id="benefits">
+  <div class="container">
+    <div class="section-head section-head--center"><p class="eyebrow">Why join</p><h2 class="h2">What membership {{ mark("gives you") }}</h2></div>
+    <div class="grid grid--3" data-reveal-group>
+      {%- set benefits = [
+        ["chart", "Practical data skills", "Hands-on training in KoboToolbox, Excel, Power BI, AI tools and programming — with certificates for participants who complete it."],
+        ["sigma", "Peer learning", "Fellowship and peer sessions where you learn alongside students from other years and campuses."],
+        ["briefcase", "Career development", "Career sessions with partners such as Jobra, talent profile support and honest conversations about the job market."],
+        ["globe", "Specialist opportunities", "Be considered for selection-based trainings with partners — like the geospatial training five members completed with DATA+ Rwanda."],
+        ["users", "A lasting network", "Connect with " + site.stats.items[2].value + " alumni, guest speakers and peers who will be your colleagues tomorrow."],
+        ["award", "Leadership experience", "Help organise sessions, trainings and partnerships — and grow as a leader."]
+      ] -%}
+      {% for b in benefits %}<div class="benefit" data-reveal><span class="b-ico">{{ icon(b[0]) }}</span><h3>{{ b[1] }}</h3><p>{{ b[2] }}</p></div>{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--navy section--rounded impact">
+  <div class="container">
+    <div class="section-head section-head--center"><p class="eyebrow">How it works</p><h2 class="h2">Three steps to your first session</h2></div>
+    <ol class="steps" data-reveal-group>
+      <li data-reveal><h3>Apply online</h3><p>Fill in the short form below — it takes about two minutes.</p></li>
+      <li data-reveal><h3>We follow up</h3><p>A member of the MSAR team will contact you with details of the next session.</p></li>
+      <li data-reveal><h3>Show up &amp; grow</h3><p>Come to a session, meet the community and choose the programs that fit you.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section--paper" id="apply">
+  <div class="container split split--top">
+    <div>
+      <p class="eyebrow">Membership form</p>
+      <h2 class="h2 mt-s">Become a member</h2>
+      <p class="lede mt-m">No prior experience with any data tool is needed. Tell us a little about yourself and what you're hoping to get from MSAR.</p>
+      <div class="faq mt-m">
+        {% for f in faqs.items | limit(4) %}<details><summary>{{ f.q }}<span class="pm">{{ icon('plus') }}</span></summary><div class="answer">{{ f.a }}</div></details>{% endfor %}
+      </div>
+    </div>
+    <div class="form-card" data-form-wrap>
+      <form data-supabase-table="join_requests" data-sb-url="{{ site.supabase.url }}" data-sb-key="{{ site.supabase.publishableKey }}" data-fallback-email="{{ site.email }}" novalidate>
+        <div class="form-grid">
+          <div class="field"><label for="j-name">Full name <span class="req" aria-hidden="true">*</span></label><input id="j-name" type="text" name="fullname" autocomplete="name" required></div>
+          <div class="field"><label for="j-email">Email <span class="req" aria-hidden="true">*</span></label><input id="j-email" type="email" name="email" autocomplete="email" required></div>
+          <div class="field"><label for="j-phone">Phone number <span class="req" aria-hidden="true">*</span></label><input id="j-phone" type="tel" name="phone" autocomplete="tel" placeholder="07XX XXX XXX" required></div>
+          <div class="field"><label for="j-inst">University / institution <span class="req" aria-hidden="true">*</span></label><input id="j-inst" type="text" name="institution" value="University of Rwanda — CST" required></div>
+          <div class="field"><label for="j-prog">Programme of study <span class="req" aria-hidden="true">*</span></label><input id="j-prog" type="text" name="programme" placeholder="e.g. BSc Applied Statistics" required></div>
+          <div class="field"><label for="j-year">Year of study <span class="req" aria-hidden="true">*</span></label>
+            <select id="j-year" name="year" required><option value="">Select…</option><option>Year 1</option><option>Year 2</option><option>Year 3</option><option>Year 4</option><option>Postgraduate</option><option>Alumni</option></select></div>
+          <fieldset class="field field--full"><legend>Areas of interest</legend>
+            <div class="check-chips">{% for i in ["Data analysis", "Excel", "Power BI", "KoboToolbox", "Python", "R", "GIS & geospatial", "Research", "Career development", "Competitions"] %}<label class="check-chip"><input type="checkbox" name="interests" value="{{ i }}"><span>{{ i }}</span></label>{% endfor %}</div>
+          </fieldset>
+          <div class="field field--full"><label for="j-why">Why would you like to join MSAR? <span class="req" aria-hidden="true">*</span></label><textarea id="j-why" name="why" required></textarea></div>
+          <div class="visually-hidden" aria-hidden="true"><label for="j-company">Leave this field empty</label><input id="j-company" type="text" name="company" tabindex="-1" autocomplete="off"></div>
+        </div>
+        <button type="submit" class="btn btn--amber btn--block mt-m">Submit application {{ icon('arrow', 'icon--arrow') }}</button>
+        <p class="small muted mt-s">We use your details only to contact you about MSAR membership and activities.</p>
+        <div class="form-status" role="alert" hidden></div>
+      </form>
+      <div class="form-success" hidden>
+        <div class="ok">{{ icon('check') }}</div>
+        <h3 class="h3">You're on the list!</h3>
+        <p class="muted mt-s">Thanks for applying. We'll be in touch soon with details of the next session.</p>
+        <a href="/events/" class="btn btn--outline mt-m">See upcoming events {{ icon('arrow', 'icon--arrow') }}</a>
+      </div>
+    </div>
+  </div>
+</section>

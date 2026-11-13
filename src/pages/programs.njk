@@ -1,0 +1,52 @@
+---
+layout: layouts/base.njk
+permalink: /programs/
+title: Programs & Initiatives
+description: "MSAR's six programs: data skills development, mathematics and statistics learning, specialist training, research and innovation, career development and mentorship, and industry partnerships."
+ogImage: /images/events/data-skills-training/lab-07.jpg
+---
+{%- from "partials/macros.njk" import icon, mark, pageHero -%}
+{{ pageHero("Programs & initiatives", "Built to take you from <em>fundamentals</em> to the field.", "Six connected programs combine peer learning, hands-on training, specialist courses with partners and career development — so members graduate with skills, confidence and connections.", [{label: "Programs"}]) }}
+
+<section class="section section--paper">
+  <div class="container">
+    {% for p in collections.programs %}
+    <article class="split" style="margin-bottom:clamp(64px,8vw,120px)" id="{{ p.page.fileSlug }}">
+      <div class="collage" style="aspect-ratio:5/4;{% if loop.index0 % 2 %}order:2{% endif %}" data-reveal="{{ 'right' if loop.index0 % 2 else 'left' }}">
+        <div class="c-main" style="width:100%;height:100%"><img src="{{ p.data.cover }}" alt="{{ p.data.coverAlt }}" sizes="(max-width: 1024px) 100vw, 600px"></div>
+        <div class="c-stat" style="left:auto;right:5%;bottom:-6%"><b style="font-size:1.4rem">0{{ p.data.order }}</b><span>{{ p.data.kicker }}</span></div>
+      </div>
+      <div data-reveal>
+        <span class="program-icon" style="position:static;margin-bottom:18px">{{ icon(p.data.icon) }}</span>
+        <h2 class="h2">{{ p.data.title }}</h2>
+        <p class="lede mt-s">{{ p.data.summary }}</p>
+        <div class="chips mt-m">{% for t in p.data.tools %}<span class="tag">{{ t }}</span>{% endfor %}</div>
+        <ul class="checklist mt-m">{% for o in p.data.outcomes | limit(3) %}<li><span class="tick">{{ icon('check') }}</span><span>{{ o }}</span></li>{% endfor %}</ul>
+        <a href="{{ p.url }}" class="btn btn--outline mt-m">Explore {{ p.data.title | lower }} {{ icon('arrow', 'icon--arrow') }}</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section section--navy section--rounded impact">
+  <div class="container">
+    <div class="section-head section-head--center"><p class="eyebrow">How it fits together</p><h2 class="h2">A path, not a list</h2><p class="lede">Members move at their own pace — most start with peer learning and practical training, then go further.</p></div>
+    <ol class="steps" style="grid-template-columns:repeat(4,minmax(0,1fr))" data-reveal-group>
+      <li data-reveal><h3>Learn</h3><p>Strengthen foundations in fellowship and peer sessions.</p></li>
+      <li data-reveal><h3>Practise</h3><p>Work hands-on with real data in the Data Skills Training Program.</p></li>
+      <li data-reveal><h3>Specialise</h3><p>Go deeper through specialist training with partners.</p></li>
+      <li data-reveal><h3>Launch</h3><p>Meet employers, mentors and alumni through career sessions.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section--paper section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal="zoom">
+      <div><h2 class="h2">Ready to <em>start?</em></h2><p>Join MSAR and we'll let you know about the next session, training and career event.</p></div>
+      <div class="btn-row"><a href="/join/" class="btn btn--amber">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a><a href="/events/" class="btn btn--ghost">See upcoming events</a></div>
+    </div>
+  </div>
+</section>
+<style>@media (max-width:1024px){.split [style*="order:2"]{order:0!important}} @media (max-width:860px){.steps[style]{grid-template-columns:1fr!important}}</style>

@@ -1,0 +1,120 @@
+{
+  "albums": [
+    {
+      "title": "Weekly sessions archive",
+      "slug": "weekly-sessions",
+      "year": "2024–2025",
+      "description": "Moments from the regular weekly sessions that MSAR has run at UR–CST since its early days.",
+      "photos": [
+        {
+          "image": "/images/archive/weekly-sessions/evening-session.jpg",
+          "caption": "An evening session at UR–CST, October 2024"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/discussion-02.jpg",
+          "caption": "A full room for a weekly session"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/presenter-whiteboard.jpg",
+          "caption": "Explaining a problem at the whiteboard"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/discussion-01.jpg",
+          "caption": "Working through an exercise together"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/room-wide.jpg",
+          "caption": "Session underway, MSAR on screen"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/full-wide.jpg",
+          "caption": "Open conversation in a circle"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/speaker-03.jpg",
+          "caption": "Presenting analysis results"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/mapping-laptop.jpg",
+          "caption": "Mapping work on a laptop"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/members-at-work-01.jpg",
+          "caption": "Focused on the task"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/laptops-bright.jpg",
+          "caption": "Hands-on practice with laptops"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/speaker-01.jpg",
+          "caption": "Problem-solving at the desk"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/speaker-02.jpg",
+          "caption": "Laptops out during a weekly session"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/facilitator-01.jpg",
+          "caption": "A member facilitating a session"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/facilitator-02.jpg",
+          "caption": "Leading the discussion"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/full-room.jpg",
+          "caption": "Taking questions from the room"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/discussion-03.jpg",
+          "caption": "Small-group discussion"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/audience-04.jpg",
+          "caption": "Following along with the slides"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/panel-conversation.jpg",
+          "caption": "A seated conversation with members"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/corner.jpg",
+          "caption": "Between sessions"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/oct-2025.jpg",
+          "caption": "Weekly session, October 2025"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/group-classroom.jpg",
+          "caption": "Members together after a session"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/group-classroom-02.jpg",
+          "caption": "Group photo after a weekly session"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/group-standing-01.jpg",
+          "caption": "Members on stage at UR–CST"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/group-steps.jpg",
+          "caption": "Members at UR–CST"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/audience-01.jpg",
+          "caption": "A packed session"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/audience-02.jpg",
+          "caption": "Members after a session"
+        },
+        {
+          "image": "/images/archive/weekly-sessions/audience-03.jpg",
+          "caption": "Members gathered on stage"
+        }
+      ]
+    }
+  ]
+}

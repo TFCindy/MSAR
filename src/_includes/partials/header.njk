@@ -1,0 +1,47 @@
+{%- from "partials/macros.njk" import icon -%}
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/" aria-label="MSAR home">
+      <img src="/images/brand/msar-badge.png" alt="" width="46" height="46" eleventy:ignore>
+      <span class="brand-text"><span class="brand-name">MSAR</span><span class="brand-sub">Maths &amp; Stats Students · Rwanda</span></span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav-list">
+        {%- for item in nav.primary %}
+        {%- set active = (page.url == item.url) or (item.url != '/' and page.url.startsWith(item.url)) -%}
+        {%- if item.children %}{% for c in item.children %}{% if page.url.startsWith(c.url) %}{% set active = true %}{% endif %}{% endfor %}{% endif -%}
+        <li class="nav-item" {% if item.children %}data-dropdown data-open="false"{% endif %}>
+          {%- if item.children %}
+          <button type="button" class="nav-link{% if active %} is-current{% endif %}" aria-expanded="false" aria-controls="dd-{{ loop.index }}">{{ item.label }}<svg class="icon chev" aria-hidden="true"><use href="#i-chev-down"/></svg></button>
+          <div class="dropdown" id="dd-{{ loop.index }}">
+            {%- for c in item.children %}<a href="{{ c.url }}" {% if page.url == c.url %}aria-current="page"{% endif %}><strong>{{ c.label }}</strong><span>{{ c.desc }}</span></a>{% endfor %}
+          </div>
+          {%- else %}
+          <a class="nav-link" href="{{ item.url }}" {% if active %}aria-current="page"{% endif %}>{{ item.label }}</a>
+          {%- endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+    </nav>
+    <div class="header-cta">
+      <a href="/join/" class="btn btn--amber btn--sm btn--desktop">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a>
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="drawer" aria-label="Open menu"><span class="bars"><span></span><span></span></span></button>
+    </div>
+  </div>
+</header>
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-inner">
+    <ul class="drawer-list">
+      <li><a href="/">Home {{ icon('arrow') }}</a></li>
+      {%- for item in nav.primary %}
+      <li><a href="{{ item.url }}">{{ item.label }} {{ icon('arrow') }}</a>
+        {%- if item.children %}<ul class="drawer-sub">{% for c in item.children %}{% if c.url != item.url %}<li><a href="{{ c.url }}">{{ c.label }}</a></li>{% endif %}{% endfor %}</ul>{% endif %}
+      </li>
+      {%- endfor %}
+    </ul>
+    <div class="drawer-foot">
+      <a href="/join/" class="btn btn--amber btn--block">Become a member {{ icon('arrow', 'icon--arrow') }}</a>
+      <p>{{ site.email }} · {{ site.phone }}</p>
+    </div>
+  </div>
+</div>

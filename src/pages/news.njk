@@ -1,0 +1,25 @@
+---
+layout: layouts/base.njk
+permalink: /news/
+title: News & Updates
+description: "Announcements, event recaps and updates from MSAR — the Mathematics and Statistics Students' Association of Rwanda."
+---
+{%- from "partials/macros.njk" import icon, pageHero, newsCard -%}
+{{ pageHero("News & updates", "The latest from <em>MSAR.</em>", "Announcements, recaps and partnership updates from across the association.", [{label: "News"}]) }}
+<section class="section section--paper">
+  <div class="container">
+    {%- set first = collections.news[0] -%}
+    {% if first %}
+    <article class="feature-event" style="grid-template-columns:1.1fr .9fr;margin-bottom:clamp(32px,4vw,56px)" data-reveal>
+      <div class="card-media" style="aspect-ratio:auto;min-height:320px"><img src="{{ first.data.cover }}" alt="{{ first.data.coverAlt }}" sizes="(max-width: 900px) 100vw, 640px" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;{% if 'flyer' in first.data.cover %}object-position:top{% endif %}"></div>
+      <div class="feature-body">
+        <div class="chips"><span class="chip chip--amber">{{ first.data.category }}</span><time class="chip" datetime="{{ first.date | isoDate }}">{{ first.date | shortDate }}</time></div>
+        <h2 class="h3" style="font-size:clamp(1.5rem,1.1rem + 1.4vw,2.2rem)"><a href="{{ first.url }}" style="text-decoration:none">{{ first.data.title }}</a></h2>
+        <p class="card-text">{{ first.data.summary }}</p>
+        <a href="{{ first.url }}" class="btn btn--outline" style="align-self:flex-start">Read more {{ icon('arrow', 'icon--arrow') }}</a>
+      </div>
+    </article>
+    {% endif %}
+    <div class="grid grid--3" data-reveal-group>{% for n in collections.news | skip(1) %}{{ newsCard(n) }}{% endfor %}</div>
+  </div>
+</section>

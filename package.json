@@ -1,0 +1,20 @@
+{
+  "name": "msar-website",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Official website of the Mathematics and Statistics Students' Association of Rwanda (MSAR)",
+  "type": "module",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve --port 8080",
+    "clean": "rm -rf _site"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.7",
+    "@11ty/eleventy-img": "7.1.1",
+    "markdown-it": "14.1.0"
+  }
+}
