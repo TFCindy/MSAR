@@ -21,7 +21,7 @@ layout: layouts/base.njk
   </div>
 </section>
 
-{%- set evs = collections.events | eventsForProgram(page.fileSlug) -%}
+{%- set evs = collections.events | onlyPast | eventsForProgram(page.fileSlug) -%}
 {% if evs.length %}
 <section class="section section--white">
   <div class="container">

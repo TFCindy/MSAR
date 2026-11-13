@@ -15,12 +15,14 @@ description: "MSAR connects mathematics and statistics students in Rwanda with p
 <!-- ============ HERO ============ -->
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero-media">
-    <img src="/images/events/data-skills-training/lab-01.jpg" alt="" loading="eager" fetchpriority="high" sizes="100vw" style="object-position:72% 35%" data-parallax="0.18">
+    <img src="/images/hero/cohort-certificates.jpg" alt="MSAR Data Skills Training participants holding their certificates in front of an innovation mural" loading="eager" fetchpriority="high" sizes="100vw" style="object-position:58% 62%" data-parallax="0.14">
   </div>
   <div class="container">
     <div class="hero-content">
-      <p class="eyebrow" data-enter style="--d:0">{{ site.fullName }}</p>
-      <h1 id="hero-title" class="display" data-enter style="--d:120">From theory to <em>practice.</em><br>From classroom to <em>career.</em></h1>
+      <h1 id="hero-title" class="hero-title">
+        <span class="eyebrow" data-enter style="--d:0">{{ site.fullName }}</span>
+        <span class="display" data-enter style="--d:120">From theory to <em>practice.</em><br>From classroom to <em>career.</em></span>
+      </h1>
       <p class="lede" data-enter style="--d:260">We are a student-led community connecting mathematics and statistics with the skills, research and people that turn a degree into a future — from KoboToolbox and Power&nbsp;BI labs to career sessions with employers.</p>
       <div class="btn-row" data-enter style="--d:380">
         <a href="/join/" class="btn btn--amber">Join MSAR {{ icon('arrow', 'icon--arrow') }}</a>
@@ -33,28 +35,21 @@ description: "MSAR connects mathematics and statistics students in Rwanda with p
   </div>
 </section>
 
-<!-- Dock: next event + join -->
+<!-- Dock: flagship program + join -->
 <div class="hero-dock">
   <div class="container">
     <div class="dock" data-reveal>
-      {% if next %}
-      <a class="dock-panel dock-event" href="{{ next.url }}" style="text-decoration:none" data-event-start="{{ next.data | startISO }}" data-event-end="{{ next.data | endISO }}" data-status-mode="auto">
-        {% if next.data.poster %}<span class="dock-thumb"><img src="{{ next.data.poster }}" alt="" sizes="96px" eleventy:widths="480"></span>{% endif %}
+      <a class="dock-panel dock-event" href="/programs/data-skills/" style="text-decoration:none">
+        <span class="dock-thumb dock-thumb--square"><img src="/images/events/data-skills-training/lab-07.jpg" alt="" sizes="96px" eleventy:widths="480"></span>
         <span>
-          <span class="dock-label">Next up · {{ next.data.category }}</span>
-          <h2>{{ next.data.title }}</h2>
-          <span class="dock-when" style="display:block">{{ next.data.startDate | weekday }}, {{ next.data | eventDateLabel }}{% if next.data.startTime %} · {{ next.data | timeRange }}{% endif %}</span>
-          <span class="countdown mt-s" data-countdown="{{ next.data | startISO }}" hidden aria-label="Time until the event starts" style="margin-top:10px"><b data-d>0</b>d <b data-h>00</b>h <b data-m>00</b>m</span>
+          <span class="dock-label">Flagship program · Data Skills Development</span>
+          <h2>Hands-on training in KoboToolbox, Excel, Power BI, AI tools &amp; programming</h2>
+          <span class="dock-when" style="display:block">{{ site.stats.items[1].value }}{{ site.stats.items[1].suffix }} students trained · certificates on completion</span>
         </span>
       </a>
-      {% else %}
-      <a class="dock-panel dock-event" href="/events/" style="text-decoration:none">
-        <span><span class="dock-label">Events</span><h2>See what MSAR has been up to</h2><span class="dock-when" style="display:block">Trainings, fellowship sessions, guest talks and more</span></span>
-      </a>
-      {% endif %}
       <div class="dock-panel dock-join">
         <div class="avatars" aria-hidden="true">{% for m in team | limit(4) %}<img src="{{ m.data.photo }}" alt="" sizes="40px" eleventy:widths="480">{% endfor %}<span>{{ site.stats.items[0].value }}+</span></div>
-        <h2>Join a community that shows up for each other</h2>
+        <h2>Join {{ site.stats.items[0].value }}+ students who show up for each other</h2>
         <p>Open to mathematics and statistics students at every year of study.</p>
         <a href="/join/" class="link-arrow">Become a member {{ icon('arrow') }}</a>
       </div>
@@ -269,3 +264,9 @@ description: "MSAR connects mathematics and statistics students in Rwanda with p
     </div>
   </div>
 </section>
+
+<script type="application/ld+json">{{ {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.items | faqSchema
+} | json | safe }}</script>

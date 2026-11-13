@@ -101,6 +101,27 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("eventsForProgram", (events, slug) =>
     (events || []).filter((e) => (e.data.programs || []).includes(slug))
   );
+  // Structured-data breadcrumbs from the URL (Home › Section › Page)
+  const SECTION_NAMES = { about: "About", leadership: "Leadership & Team", programs: "Programs", events: "Events", gallery: "Gallery", opportunities: "Opportunities", partners: "Partners", resources: "Resources", news: "News", join: "Join MSAR", contact: "Contact", register: "Register" };
+  eleventyConfig.addFilter("breadcrumbs", (url, title, base) => {
+    const segs = String(url || "/").split("/").filter(Boolean);
+    const items = [{ "@type": "ListItem", position: 1, name: "Home", item: base + "/" }];
+    segs.forEach((seg, i) => {
+      const last = i === segs.length - 1;
+      items.push({ "@type": "ListItem", position: i + 2, name: last ? (title || SECTION_NAMES[seg] || seg) : (SECTION_NAMES[seg] || seg.replace(/-/g, " ")), item: `${base}/${segs.slice(0, i + 1).join("/")}/` });
+    });
+    return items;
+  });
+  eleventyConfig.addFilter("faqSchema", (items) => (items || []).map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })));
+  // Where a "Register" button should point: an external link, or the built-in form page
+  eleventyConfig.addFilter("regLink", (ev) => {
+    const d = ev.data || ev;
+    if (d.registrationForm && d.registrationForm.enabled) return `/events/${ev.page ? ev.page.fileSlug : ev.fileSlug}/register/`;
+    return d.registrationUrl || "";
+  });
+  eleventyConfig.addFilter("onlyPast", (events) =>
+    (events || []).filter((e) => e.data.series || ["completed", "ongoing"].includes(eventStatus(e.data)))
+  );
   eleventyConfig.addFilter("startISO", (data) => eventBounds(data).start?.toISOString() || "");
   eleventyConfig.addFilter("endISO", (data) => eventBounds(data).end?.toISOString() || "");
 

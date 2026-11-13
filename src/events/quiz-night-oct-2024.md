@@ -7,7 +7,8 @@ startDate: "2024-10-10"
 dateDisplay: "October 2024"
 startTime: "18:00"
 location: "UR–CST (UniPod)"
-cover: ""
+cover: /images/archive/weekly-sessions/evening-session.jpg
+coverAlt: "MSAR members at an evening session at UR–CST in October 2024"
 programs: ["maths-stats-learning"]
 gallery: []
 ---

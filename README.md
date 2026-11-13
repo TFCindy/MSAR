@@ -5,7 +5,7 @@ The official website of the **Mathematics and Statistics Students' Association o
 - **Static site generator:** [Eleventy](https://www.11ty.dev/) 3. Pages are built from Markdown and JSON content.
 - **Hosting:** Vercel. Builds run automatically on every push to `master` (settings in `vercel.json`).
 - **Content management:** [Sveltia CMS](https://github.com/sveltia/sveltia-cms) at **`/admin/`**. It edits the content files in this GitHub repository, so there is no database and no extra server.
-- **Forms:** Supabase (`join_requests`, `contact_messages`). Same project as before.
+- **Forms:** Supabase (`join_requests`, `contact_messages`, `event_registrations`). Same project as before.
 - **Images:** every `<img>` is automatically converted to responsive WebP/JPEG at build time.
 
 ---
@@ -45,6 +45,18 @@ Statuses are re-checked **in the visitor's browser** on every page view, so an e
 
 Use **Status: Postponed / Cancelled** to override the automatic status. Use **Ongoing series** for recurring activities without a single date (e.g. fellowship sessions).
 
+### Event registration forms
+
+Any event can have its own registration page. In the CMS, open the event, expand **Built-in registration form**, tick **Enable**, and add a title, description, confirmation message, logos and any extra questions.
+
+- The page appears at `/events/<event>/register/`, and every **Register now** button links to it automatically.
+- Every form asks for full name, email, phone (WhatsApp), institution, field of study and academic year. Extra questions (multiple choice, checkboxes or short answer) are added per event.
+- Responses go to Supabase → **`event_registrations`**. Use the view **`event_registrations_flat`** → *Export to CSV* for a spreadsheet with one column per question.
+- The form closes by itself once the event has ended.
+
+The MSAR × Jobra Career Development Session uses this:
+https://msar.rw/events/msar-jobra-career-session-2026/register/
+
 ### Other content
 
 | Section in the CMS | Controls |
@@ -69,6 +81,7 @@ Use **Status: Postponed / Cancelled** to override the automatic status. Use **On
 | `/leadership/` | Founder, presidents by year, committee |
 | `/programs/` + `/programs/<slug>/` | Program overview and six program pages, each with related events |
 | `/events/` + `/events/<slug>/` | Upcoming events, filterable archive (category and year); event pages with gallery, countdown, registration, calendar file and sharing |
+| `/events/<slug>/register/` | Built-in registration form (for events that enable it) |
 | `/gallery/` | Albums, filterable masonry gallery with lightbox, session video |
 | `/opportunities/` | Career development, specialist training, what's in the pipeline |
 | `/partners/` | Partner profiles and ways to partner |
@@ -119,7 +132,7 @@ Node 20 or newer is required.
 ## 4. One-time setup checklist
 
 1. **Vercel:** nothing to change. `vercel.json` sets the build command (`npm run build`) and output folder (`_site`).
-2. **Supabase:** open the SQL editor and run `supabase/forms.sql`. This creates `contact_messages` (new) and makes sure both tables accept *insert-only* submissions from the website.
+2. **Supabase (required for the forms):** open the SQL editor and run `supabase/forms.sql`. It creates `contact_messages` and `event_registrations` (new), plus the `event_registrations_flat` export view. It also makes sure every form table accepts *insert-only* submissions from the website.
 3. **Daily rebuild (optional):** create a Vercel Deploy Hook for `master`, then add it as the GitHub Actions secret `VERCEL_DEPLOY_HOOK`. `.github/workflows/daily-rebuild.yml` then rebuilds nightly.
 4. **Logo:** the badge in `src/images/brand/msar-badge.png` comes from a low-resolution source. Replace it with the original vector/PNG logo for perfectly sharp rendering, and regenerate `src/static/favicon-64.png` and `apple-touch-icon.png`.
 
@@ -131,7 +144,6 @@ Everything on the site is based on MSAR's own website, photographs and the brief
 
 - **Exact dates** for the Data Skills Training Program, its certificate ceremony, the Gikondo fellowship sessions and the DATA+ geospatial training. These are shown as "2026" (or "Ongoing series") until updated in the CMS. Each event file has `dateConfirmed: false` to mark this.
 - **Photo grouping:** WhatsApp photos were grouped by venue and content into Data Skills labs, the certificate ceremony, and Gikondo fellowship sessions. Please check the fellowship album in particular.
-- **Jobra registration link:** add it to the event's *Registration link* field as soon as it is ready. Until then the page shows the "will be shared on official channels" note.
-- **Impact numbers:** 100+ members, 55+ training participants and 47 alumni (historical figures from the brief). Update them under *Site settings*.
-- **Partner logos and websites:** official logo files for UR, DATA+ Rwanda and Jobra, plus DATA+ and Jobra website links. Until then partners show as clean text wordmarks.
+- **Impact numbers:** 150+ members, 55+ training participants and 47 alumni. Update them under *Site settings*.
+- **Partner websites:** add the DATA+ Rwanda and Jobra website links under *Site settings → Partners* (logos are already in place).
 - **Committee:** add current committee members under *Leadership & team*.

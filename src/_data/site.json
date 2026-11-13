@@ -3,7 +3,7 @@
   "fullName": "Mathematics and Statistics Students' Association of Rwanda",
   "tagline": "From theory to practice. From classroom to career.",
   "url": "https://msar.rw",
-  "description": "MSAR connects mathematics and statistics students in Rwanda with practical data skills, research, mentors and industry partners — from KoboToolbox and Power BI labs to career sessions with employers.",
+  "description": "MSAR — the Mathematics and Statistics Students' Association of Rwanda — connects 150+ students with practical data skills training (KoboToolbox, Excel, Power BI, QGIS, Python), research, mentors and career opportunities at the University of Rwanda.",
   "founded": "2022",
   "home": "University of Rwanda — College of Science and Technology (UR–CST)",
   "address": "University of Rwanda, Nyarugenge Campus, Kigali, Rwanda",
@@ -13,24 +13,56 @@
   "phoneHref": "+250789700135",
   "whatsapp": "250727770874",
   "socials": [
-    { "name": "LinkedIn", "url": "https://www.linkedin.com/company/msar-rwanda/", "icon": "linkedin" },
-    { "name": "WhatsApp", "url": "https://wa.me/250727770874", "icon": "whatsapp" }
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/company/msar-rwanda/",
+      "icon": "linkedin"
+    },
+    {
+      "name": "WhatsApp",
+      "url": "https://wa.me/250727770874",
+      "icon": "whatsapp"
+    }
   ],
-  "ogImage": "/images/events/data-skills-certificates/cohort-group-02.jpg",
+  "ogImage": "/images/hero/cohort-certificates.jpg",
   "mission": "To unite and support students in mathematics and statistics through academic excellence, professional growth, and real-world applications.",
   "vision": "To become Rwanda's leading community of empowered mathematicians and statisticians.",
   "stats": {
     "asOf": "2026",
     "note": "Figures from MSAR organisational records. Members, alumni and training participants are counted separately.",
     "items": [
-      { "value": 100, "suffix": "+", "label": "Community members", "detail": "Current mathematics and statistics students in the MSAR community" },
-      { "value": 55, "suffix": "+", "label": "Training participants", "detail": "Students reached through MSAR practical data-skills training" },
-      { "value": 47, "suffix": "", "label": "Alumni", "detail": "Graduates who remain part of the MSAR network" }
+      {
+        "value": 150,
+        "suffix": "+",
+        "label": "Community members",
+        "detail": "Current mathematics and statistics students in the MSAR community"
+      },
+      {
+        "value": 55,
+        "suffix": "+",
+        "label": "Training participants",
+        "detail": "Students reached through MSAR practical data-skills training"
+      },
+      {
+        "value": 47,
+        "suffix": "",
+        "label": "Alumni",
+        "detail": "Graduates who remain part of the MSAR network"
+      }
     ],
     "highlights": [
-      { "value": "2022", "label": "Started as peer study sessions at UR–CST" },
-      { "value": "5", "label": "Students selected for geospatial training with DATA+ Rwanda" },
-      { "value": "7+", "label": "Tools taught hands-on: KoboToolbox, Excel, Power BI, QGIS, Earth Engine, Python, AI tools" }
+      {
+        "value": "2022",
+        "label": "Started as peer study sessions at UR–CST"
+      },
+      {
+        "value": "5",
+        "label": "Students selected for geospatial training with DATA+ Rwanda"
+      },
+      {
+        "value": "7+",
+        "label": "Tools taught hands-on: KoboToolbox, Excel, Power BI, QGIS, Earth Engine, Python, AI tools"
+      }
     ]
   },
   "supabase": {

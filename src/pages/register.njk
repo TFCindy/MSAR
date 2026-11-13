@@ -1,0 +1,91 @@
+---js
+{
+  layout: "layouts/base.njk",
+  pagination: {
+    data: "collections.events",
+    size: 1,
+    alias: "ev",
+    before: (items) => items.filter((e) => e.data.registrationForm && e.data.registrationForm.enabled)
+  },
+  permalink: (data) => `/events/${data.ev.page.fileSlug}/register/`,
+  eleventyComputed: {
+    title: (data) => `Register: ${data.ev.data.title}`,
+    description: (data) => (data.ev.data.registrationForm.description || data.ev.data.summary),
+    ogImage: (data) => data.ev.data.poster || data.ev.data.cover
+  }
+}
+---
+{%- from "partials/macros.njk" import icon -%}
+{%- set e = ev.data -%}
+{%- set f = e.registrationForm -%}
+{%- set st = e | eventStatus -%}
+{%- set closed = (st == 'completed' or st == 'cancelled') -%}
+
+<section class="page-hero reg-hero">
+  <div class="container container--narrow" style="max-width:calc(900px + var(--gutter)*2)">
+    <nav aria-label="Breadcrumb"><ol class="breadcrumb"><li><a href="/">Home</a></li><li><a href="/events/">Events</a></li><li><a href="{{ ev.url }}">{{ e.title | truncate(34) }}</a></li><li><span aria-current="page">Register</span></li></ol></nav>
+    {% if f.logos and f.logos.length %}
+    <div class="reg-logos" aria-label="Organised by">
+      {% for l in f.logos %}{% if not loop.first %}<span class="reg-x" aria-hidden="true">×</span>{% endif %}<span class="reg-logo"><img src="{{ l.image }}" alt="{{ l.alt }}" eleventy:ignore></span>{% endfor %}
+    </div>
+    {% endif %}
+    <h1 class="h1 reg-title">{{ f.title or ("Register: " + e.title) }}</h1>
+    {% if f.description %}<p class="lede">{{ f.description }}</p>{% endif %}
+    <div class="chips mt-m">
+      <span class="chip chip--glass">{{ icon('calendar') }} {{ e.startDate | weekday }}, {{ e | eventDateLabel }}</span>
+      {% if e.startTime %}<span class="chip chip--glass">{{ icon('clock') }} {{ e | timeRange }}</span>{% endif %}
+      <span class="chip chip--glass">{{ icon('pin') }} {{ e.location }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="section section--paper">
+  <div class="container container--narrow" style="max-width:calc(900px + var(--gutter)*2)">
+    <div class="form-card reg-card" data-form-wrap {% if not closed %}data-close-when="{{ e | endISO }}"{% endif %}>
+      {% if closed %}
+      <div class="form-success"><div class="ok">{{ icon('info') }}</div><h2 class="h3">Registration is closed</h2><p class="muted mt-s">This event has already taken place. See what's coming up next.</p><a href="/events/" class="btn btn--outline mt-m">Upcoming events {{ icon('arrow', 'icon--arrow') }}</a></div>
+      {% else %}
+      <p class="small muted"><span class="req">*</span> Required</p>
+      <form class="mt-s" data-supabase-table="event_registrations" data-event-slug="{{ ev.page.fileSlug }}" data-event-title="{{ e.title }}" data-sb-url="{{ site.supabase.url }}" data-sb-key="{{ site.supabase.publishableKey }}" data-fallback-email="{{ site.email }}" novalidate>
+        <div class="form-grid">
+          <div class="field field--full"><label for="r-name">Full name <span class="req" aria-hidden="true">*</span></label><input id="r-name" type="text" name="fullname" autocomplete="name" required></div>
+          <div class="field"><label for="r-email">Email address <span class="req" aria-hidden="true">*</span></label><input id="r-email" type="email" name="email" autocomplete="email" required></div>
+          <div class="field"><label for="r-phone">Phone number (WhatsApp) <span class="req" aria-hidden="true">*</span></label><input id="r-phone" type="tel" name="phone" autocomplete="tel" placeholder="07XX XXX XXX" required></div>
+          <div class="field"><label for="r-inst">University / institution <span class="req" aria-hidden="true">*</span></label><input id="r-inst" type="text" name="institution" required></div>
+          <div class="field"><label for="r-prog">Field of study / academic program <span class="req" aria-hidden="true">*</span></label><input id="r-prog" type="text" name="programme" placeholder="e.g. BSc Applied Statistics" required></div>
+          <fieldset class="field field--full has-other">
+            <legend>Current academic year</legend>
+            <div class="check-chips">{% for y in ["Year 1", "Year 2", "Year 3", "Year 4", "Graduate", "Other"] %}<label class="check-chip"><input type="radio" name="year" value="{{ y }}"><span>{{ y }}</span></label>{% endfor %}</div>
+            <div class="other-wrap"><label class="visually-hidden" for="r-year-other">Please specify your academic year</label><input id="r-year-other" type="text" name="q_year_other" placeholder="Please specify"></div>
+          </fieldset>
+          {% for q in f.questions %}
+          <fieldset class="field field--full">
+            <legend>{{ q.label }}{% if q.required %} <span class="req" aria-hidden="true">*</span>{% endif %}</legend>
+            {% if q.hint %}<span class="hint">{{ q.hint }}</span>{% endif %}
+            {% if q.type == 'text' %}
+            <input type="text" name="q_{{ q.name }}" aria-label="{{ q.label }}" {% if q.required %}required{% endif %}>
+            {% else %}
+            <div class="check-chips">{% for o in q.options %}<label class="check-chip"><input type="{{ 'checkbox' if q.type == 'checkbox' else 'radio' }}" name="q_{{ q.name }}" value="{{ o }}" {% if q.required and q.type != 'checkbox' %}required{% endif %}><span>{{ o }}</span></label>{% endfor %}</div>
+            {% endif %}
+          </fieldset>
+          {% endfor %}
+          <div class="visually-hidden" aria-hidden="true"><label for="r-company">Leave this field empty</label><input id="r-company" type="text" name="company" tabindex="-1" autocomplete="off"></div>
+        </div>
+        <button type="submit" class="btn btn--amber btn--block mt-m">Submit registration {{ icon('arrow', 'icon--arrow') }}</button>
+        <p class="small muted mt-s">Your details are used only to organise this session and share related MSAR updates.</p>
+        <div class="form-status" role="alert" hidden></div>
+      </form>
+      <div class="form-success" hidden>
+        <div class="ok">{{ icon('check') }}</div>
+        <h2 class="h3">You're registered!</h2>
+        <p class="mt-s" style="font-size:1.1rem">{{ f.confirmation or "Thank you for registering! We look forward to seeing you at the session." }}</p>
+        <div class="btn-row mt-m" style="justify-content:center">
+          {% if e.startTime %}<a class="btn" href="/events/{{ ev.page.fileSlug }}.ics" download>{{ icon('calendar') }} Add to calendar</a>{% endif %}
+          <a class="btn btn--outline" href="{{ ev.url }}">Event details</a>
+        </div>
+      </div>
+      <div class="form-success reg-closed" hidden><div class="ok">{{ icon('info') }}</div><h2 class="h3">Registration is closed</h2><p class="muted mt-s">This event has already taken place.</p><a href="/events/" class="btn btn--outline mt-m">Upcoming events {{ icon('arrow', 'icon--arrow') }}</a></div>
+      {% endif %}
+    </div>
+  </div>
+</section>

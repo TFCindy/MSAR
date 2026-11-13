@@ -90,7 +90,7 @@
 {% endmacro %}
 
 {% macro featureEvent(next) %}
-{%- set e = next.data -%}
+{%- set e = next.data -%}{%- set reg = next | regLink -%}
       <article class="feature-event" data-event-start="{{ e | startISO }}" data-event-end="{{ e | endISO }}" data-status-mode="{{ e.status or 'auto' }}" data-reveal>
         <div class="feature-poster">{% if e.poster %}<img src="{{ e.poster }}" alt="{{ e.posterAlt }}" sizes="(max-width: 900px) 280px, 360px">{% elif e.cover %}<img src="{{ e.cover }}" alt="{{ e.coverAlt }}" sizes="360px">{% endif %}</div>
         <div class="feature-body">
@@ -107,11 +107,11 @@
             <div><b data-d>0</b><span>days</span></div><div><b data-h>00</b><span>hrs</span></div><div><b data-m>00</b><span>min</span></div><div><b data-s>00</b><span>sec</span></div>
           </div>
           <div class="btn-row">
-            {% if e.registrationUrl %}<a class="btn btn--amber" href="{{ e.registrationUrl }}" target="_blank" rel="noopener noreferrer">Register now {{ icon('arrow-up-right') }}</a>{% endif %}
+            {% if reg %}<a class="btn btn--amber" href="{{ reg }}" {% if reg.startsWith('http') %}target="_blank" rel="noopener noreferrer"{% endif %}>Register now {{ icon('arrow-up-right') if reg.startsWith('http') else icon('arrow', 'icon--arrow') }}</a>{% endif %}
             <a class="btn" href="{{ next.url }}">Event details {{ icon('arrow', 'icon--arrow') }}</a>
             {% if e.startTime %}<a class="btn btn--outline" href="/events/{{ next.page.fileSlug }}.ics" download>{{ icon('calendar') }} Add to calendar</a>{% endif %}
           </div>
-          {% if not e.registrationUrl and e.registrationNote %}<p class="note">{{ icon('info') }}<span>{{ e.registrationNote }}</span></p>{% endif %}
+          {% if not reg and e.registrationNote %}<p class="note">{{ icon('info') }}<span>{{ e.registrationNote }}</span></p>{% endif %}
         </div>
       </article>
 {% endmacro %}

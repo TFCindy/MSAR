@@ -1,7 +1,6 @@
 <!doctype html>
 {%- from "partials/macros.njk" import icon -%}
-{%- set nextEvent = (collections.events | upcomingEvents)[0] -%}
-{%- set pageTitle = (title + " | " + site.name) if title and not isHome else (site.name + " — " + site.fullName) -%}
+{%- set pageTitle = (title + " | MSAR Rwanda") if title and not isHome else ("MSAR Rwanda | " + site.fullName) -%}
 {%- set pageDesc = description or summary or site.description -%}
 {%- set shareImage = ogImage or cover or site.ogImage -%}
 <html lang="en">
@@ -12,16 +11,20 @@
 <meta name="description" content="{{ pageDesc | stripHtml | truncate(165) }}">
 <link rel="canonical" href="{{ page.url | absoluteUrl(site.url) }}">
 <meta name="theme-color" content="#1e3a66">
+<meta name="robots" content="{{ 'noindex, follow' if noindex else 'index, follow, max-image-preview:large' }}">
+<meta name="author" content="{{ site.fullName }}">
+<meta name="keywords" content="MSAR, MSAR Rwanda, Mathematics and Statistics Students' Association of Rwanda, University of Rwanda, UR-CST, statistics students Rwanda, data skills training Rwanda, Power BI training Kigali, KoboToolbox training, QGIS, data science students Rwanda">
 <meta name="google-site-verification" content="Pkn2kWtcAAblzu0n_KGeGfn92EVPQPT6pmPl1KHay5c">
 <meta property="og:type" content="{{ ogType or 'website' }}">
 <meta property="og:site_name" content="{{ site.name }}">
-<meta property="og:title" content="{{ title or site.fullName }}">
+<meta property="og:title" content="{{ pageTitle }}">
 <meta property="og:description" content="{{ pageDesc | stripHtml | truncate(200) }}">
 <meta property="og:url" content="{{ page.url | absoluteUrl(site.url) }}">
 <meta property="og:image" content="{{ shareImage | absoluteUrl(site.url) }}">
+<meta property="og:image:alt" content="{{ ogImageAlt or (site.name + ' — ' + (title or site.fullName)) }}">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ title or site.fullName }}">
+<meta name="twitter:title" content="{{ pageTitle }}">
 <meta name="twitter:description" content="{{ pageDesc | stripHtml | truncate(200) }}">
 <meta name="twitter:image" content="{{ shareImage | absoluteUrl(site.url) }}">
 <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
@@ -32,29 +35,50 @@
 <link rel="stylesheet" href="/assets/css/main.css?v={{ build.version }}">
 <script type="application/ld+json">{{ {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": site.fullName,
-  "alternateName": site.name,
-  "url": site.url,
-  "logo": site.url + "/images/brand/msar-badge.png",
-  "email": site.email,
-  "foundingDate": site.founded,
-  "sameAs": [site.socials[0].url],
-  "address": { "@type": "PostalAddress", "addressLocality": "Kigali", "addressCountry": "RW" }
+  "@graph": [
+    {
+      "@type": ["Organization", "EducationalOrganization"],
+      "@id": site.url + "/#organization",
+      "name": site.fullName,
+      "alternateName": ["MSAR", "MSAR Rwanda"],
+      "url": site.url,
+      "logo": site.url + "/images/brand/msar-badge.png",
+      "image": site.ogImage | absoluteUrl(site.url),
+      "description": site.description,
+      "email": site.email,
+      "telephone": site.phoneHref,
+      "foundingDate": site.founded,
+      "slogan": site.tagline,
+      "sameAs": [site.socials[0].url],
+      "parentOrganization": { "@type": "CollegeOrUniversity", "name": "University of Rwanda", "url": "https://ur.ac.rw" },
+      "address": { "@type": "PostalAddress", "streetAddress": "University of Rwanda, College of Science and Technology, Nyarugenge Campus", "addressLocality": "Kigali", "addressCountry": "RW" },
+      "areaServed": "Rwanda",
+      "knowsAbout": ["Mathematics", "Statistics", "Data science", "Data analysis", "Power BI", "KoboToolbox", "Excel", "QGIS", "Google Earth Engine", "Python"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": site.url + "/#website",
+      "url": site.url,
+      "name": "MSAR Rwanda",
+      "alternateName": site.fullName,
+      "publisher": { "@id": site.url + "/#organization" },
+      "inLanguage": "en"
+    }
+  ]
 } | json | safe }}</script>
+{%- if page.url != "/" and page.url.endsWith("/") %}
+<script type="application/ld+json">{{ {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": page.url | breadcrumbs(title, site.url)
+} | json | safe }}</script>
+{%- endif %}
 {% block head %}{% endblock %}
 </head>
-<body class="{{ bodyClass }}{% if nextEvent %} has-announce{% endif %}">
+<body class="{{ bodyClass }}">
 <a class="skip-link" href="#main">Skip to content</a>
 {% include "partials/icons.njk" %}
 
-{% if nextEvent %}
-<aside class="announce" aria-label="Announcement" data-hide-when-started="{{ nextEvent.data | endISO }}">
-  <div class="container">
-    <a href="{{ nextEvent.url }}"><span class="pulse" aria-hidden="true"></span><span class="announce-tag">Upcoming</span><span>{{ nextEvent.data.title }} — {{ nextEvent.data.startDate | weekday }}, {{ nextEvent.data.startDate | day }} {{ nextEvent.data.startDate | mon }}</span>{{ icon('arrow') }}</a>
-  </div>
-</aside>
-{% endif %}
 
 {% include "partials/header.njk" %}
 

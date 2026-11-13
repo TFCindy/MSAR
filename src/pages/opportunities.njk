@@ -6,7 +6,7 @@ description: "How MSAR connects mathematics and statistics students with career 
 ogImage: /images/events/data-skills-certificates/panel-02.jpg
 ---
 {%- from "partials/macros.njk" import icon, mark, pageHero, eventCard -%}
-{%- set careerEvents = collections.events | eventsForProgram('careers-mentorship') -%}
+{%- set careerEvents = collections.events | onlyPast | eventsForProgram('careers-mentorship') -%}
 {{ pageHero("Opportunities", "Where your skills meet the <em>real world.</em>", "MSAR connects members with career insights, specialist training, mentors and organisations that value analytical talent. Here's what's available — and what we're working on.", [{label: "Opportunities"}], "/images/events/data-skills-certificates/panel-02.jpg", "A speaker sharing his career experience at an MSAR event") }}
 
 <section class="section section--paper">
@@ -17,7 +17,7 @@ ogImage: /images/events/data-skills-certificates/panel-02.jpg
         <span class="b-ico">{{ icon('briefcase') }}</span>
         <h3>Career development sessions</h3>
         <p>Sessions with partner organisations on talent profiles, what employers look for and how to present your skills. Our collaboration with <strong>Jobra</strong> focuses on career insights, talent profiling, mentorship and industry exposure.</p>
-        <a class="link-arrow mt-s" href="/events/msar-jobra-career-session-2026/">MSAR × Jobra session, 17 Nov 2026 {{ icon('arrow') }}</a>
+        <a class="link-arrow mt-s" href="/programs/careers-mentorship/">Career Development &amp; Mentorship {{ icon('arrow') }}</a>
       </article>
       <article class="benefit" data-reveal>
         <span class="b-ico">{{ icon('globe') }}</span>
@@ -35,7 +35,7 @@ ogImage: /images/events/data-skills-certificates/panel-02.jpg
         <span class="b-ico">{{ icon('users') }}</span>
         <h3>Mentors, alumni and guest speakers</h3>
         <p>Alumni sessions and guest talks give members direct access to people who have walked the path — and honest answers to questions that don't come up in class.</p>
-        <a class="link-arrow mt-s" href="/programs/careers-mentorship/">Career Development &amp; Mentorship {{ icon('arrow') }}</a>
+        <a class="link-arrow mt-s" href="/events/">Browse events {{ icon('arrow') }}</a>
       </article>
       <article class="benefit" data-reveal>
         <span class="b-ico">{{ icon('network') }}</span>
@@ -72,7 +72,7 @@ ogImage: /images/events/data-skills-certificates/panel-02.jpg
 {% if careerEvents.length %}
 <section class="section section--paper">
   <div class="container">
-    <div class="section-head section-head--split"><p class="eyebrow">Career events</p><h2 class="h2">Sessions focused on careers</h2><div class="head-action"><a href="/events/?category=Career%20Development" class="btn btn--outline">All career events {{ icon('arrow', 'icon--arrow') }}</a></div></div>
+    <div class="section-head section-head--split"><p class="eyebrow">Career events</p><h2 class="h2">Past career sessions</h2><div class="head-action"><a href="/events/?category=Career%20Development" class="btn btn--outline">All career events {{ icon('arrow', 'icon--arrow') }}</a></div></div>
     <div class="grid grid--3" data-reveal-group>{% for ev in careerEvents | limit(3) %}{{ eventCard(ev) }}{% endfor %}</div>
   </div>
 </section>

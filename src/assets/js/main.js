@@ -349,6 +349,20 @@
     },
     contact_messages: function (fd) {
       return { name: fd.get("name"), email: fd.get("email"), subject: fd.get("subject"), message: fd.get("message") };
+    },
+    event_registrations: function (fd, form) {
+      var answers = {};
+      fd.forEach(function (v, k) {
+        if (k.indexOf("q_") !== 0) return;
+        var key = k.slice(2), all = fd.getAll(k);
+        answers[key] = form.querySelector('input[type="checkbox"][name="' + k + '"]') ? all : all[0];
+      });
+      return {
+        event_slug: form.getAttribute("data-event-slug"), event_title: form.getAttribute("data-event-title"),
+        full_name: fd.get("fullname"), email: fd.get("email"), phone: fd.get("phone"),
+        institution: fd.get("institution"), program: fd.get("programme"), academic_year: fd.get("year") || null,
+        answers: answers
+      };
     }
   };
   $$("form[data-supabase-table]").forEach(function (form) {
@@ -372,7 +386,7 @@
       var fd = new FormData(form);
       loadSupabase().then(function (lib) {
         var client = lib.createClient(form.getAttribute("data-sb-url"), form.getAttribute("data-sb-key"));
-        return client.from(table).insert(MAPPERS[table](fd));
+        return client.from(table).insert(MAPPERS[table](fd, form));
       }).then(function (res) {
         if (res && res.error) throw res.error;
         var wrap = form.closest("[data-form-wrap]");
@@ -389,6 +403,15 @@
         }
       });
     });
+  });
+
+  /* ---------- registration closes automatically once the event has ended ---------- */
+  $$("[data-close-when]").forEach(function (wrap) {
+    var end = Date.parse(wrap.getAttribute("data-close-when"));
+    if (isNaN(end) || Date.now() < end) return;
+    var form = $("form", wrap), closedMsg = $(".reg-closed", wrap);
+    if (form) form.hidden = true;
+    if (closedMsg) closedMsg.hidden = false;
   });
 
   /* ---------- copyright year ---------- */

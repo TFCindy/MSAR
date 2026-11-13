@@ -30,3 +30,15 @@ ogType: article
     <div class="grid grid--3 rail-mobile" data-reveal-group>{% for n in collections.news | exceptUrl(page.url) | limit(3) %}{{ newsCard(n) }}{% endfor %}</div>
   </div>
 </section>
+
+<script type="application/ld+json">{{ {
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": title,
+  "description": summary,
+  "datePublished": page.date | isoDate,
+  "image": [ (cover or site.ogImage) | absoluteUrl(site.url) ],
+  "mainEntityOfPage": page.url | absoluteUrl(site.url),
+  "author": { "@type": "Organization", "name": site.fullName, "url": site.url },
+  "publisher": { "@type": "Organization", "name": site.fullName, "logo": { "@type": "ImageObject", "url": site.url + "/images/brand/msar-badge.png" } }
+} | json | safe }}</script>

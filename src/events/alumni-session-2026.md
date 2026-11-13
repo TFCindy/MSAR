@@ -5,7 +5,8 @@ category: Career Development
 status: auto
 startDate: "2026-09-19"
 location: "University of Rwanda — CST, Kigali"
-cover: ""
+cover: /images/archive/weekly-sessions/panel-conversation.jpg
+coverAlt: "MSAR members in a seated conversation during a session"
 programs: ["careers-mentorship"]
 gallery: []
 ---

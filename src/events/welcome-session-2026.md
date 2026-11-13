@@ -6,7 +6,8 @@ status: auto
 startDate: "2026-09-22"
 startTime: "17:45"
 location: "UR–CST, Room 2RO-10"
-cover: ""
+cover: /images/archive/weekly-sessions/group-classroom.jpg
+coverAlt: "MSAR members gathered together in a classroom at UR–CST"
 programs: ["maths-stats-learning"]
 gallery: []
 ---

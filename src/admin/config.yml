@@ -63,6 +63,47 @@ collections:
       - { name: posterAlt, label: Flyer description, widget: string, required: false }
       - { name: registrationUrl, label: Registration link, widget: string, required: false, hint: "Google Form, Jobra, Eventbrite… Shown as a “Register now” button while the event is upcoming." }
       - { name: registrationNote, label: Registration note (when no link yet), widget: string, required: false }
+      - name: registrationForm
+        label: Built-in registration form
+        widget: object
+        collapsed: true
+        required: false
+        hint: >
+          Turn this on to create a registration page at /events/<event>/register/ (the "Register now" buttons link to it automatically).
+          Every form asks for full name, email, phone (WhatsApp), institution, field of study and academic year;
+          add extra questions below. Responses are saved in Supabase → event_registrations. The form closes automatically after the event.
+        fields:
+          - { name: enabled, label: Enable registration form, widget: boolean, default: false }
+          - { name: title, label: Form title, widget: string, required: false }
+          - { name: description, label: Form description, widget: text, required: false }
+          - { name: confirmation, label: Confirmation message, widget: text, required: false, default: "Thank you for registering! We look forward to seeing you at the session." }
+          - name: logos
+            label: Logos shown above the form
+            widget: list
+            required: false
+            fields:
+              - { name: image, label: Logo, widget: image }
+              - { name: alt, label: Logo description, widget: string }
+          - name: questions
+            label: Extra questions
+            label_singular: Question
+            widget: list
+            required: false
+            summary: "{{fields.label}}"
+            fields:
+              - { name: name, label: "Short id (lowercase_with_underscores)", widget: string, hint: "Used as the column name in the export, e.g. msar_member" }
+              - { name: label, label: Question, widget: string }
+              - name: type
+                label: Answer type
+                widget: select
+                default: radio
+                options:
+                  - { label: "Multiple choice (one answer)", value: radio }
+                  - { label: "Checkboxes (several answers)", value: checkbox }
+                  - { label: "Short answer", value: text }
+              - { name: options, label: Options (for multiple choice / checkboxes), widget: list, required: false }
+              - { name: hint, label: Hint, widget: string, required: false }
+              - { name: required, label: Required, widget: boolean, default: false, required: false }
       - { name: partners, label: Partner organisations, widget: list, required: false }
       - name: programs
         label: Related programs

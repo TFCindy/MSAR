@@ -6,13 +6,14 @@ ogType: article
 {%- set e = { title: title, startDate: startDate, endDate: endDate, startTime: startTime, endTime: endTime, status: status, series: series, dateDisplay: dateDisplay, category: category } -%}
 {%- set st = e | eventStatus -%}
 {%- set isUpcoming = (st == 'upcoming' or st == 'postponed') and not series -%}
-<article itemscope itemtype="https://schema.org/Event">
+{%- set reg = (registrationUrl or ('/events/' + page.fileSlug + '/register/' if (registrationForm and registrationForm.enabled) else '')) -%}
+<article>
 <section class="event-hero" data-event-start="{{ e | startISO }}" data-event-end="{{ e | endISO }}" data-status-mode="{{ 'manual' if series else (status or 'auto') }}">
   <div class="bg">{% if cover %}<img src="{{ cover }}" alt="" loading="eager" fetchpriority="high" sizes="100vw" data-parallax="0.12">{% else %}{{ genCover(e) }}{% endif %}</div>
   <div class="container">
     <nav aria-label="Breadcrumb"><ol class="breadcrumb"><li><a href="/">Home</a></li><li><a href="/events/">Events</a></li><li><span aria-current="page">{{ title | truncate(40) }}</span></li></ol></nav>
     <div class="chips">{{ statusBadge(e) }}<span class="chip chip--glass">{{ category }}</span>{% for p in partners %}<span class="chip chip--glass">with {{ p }}</span>{% endfor %}</div>
-    <h1 itemprop="name">{{ title }}</h1>
+    <h1>{{ title }}</h1>
     <p class="lede" style="color:rgba(255,255,255,.85);margin-top:16px;max-width:62ch">{{ summary }}</p>
   </div>
 </section>
@@ -20,7 +21,7 @@ ogType: article
 <section class="section section--paper">
   <div class="container event-layout">
     <div>
-      <div class="prose" itemprop="description">{{ content | safe }}</div>
+      <div class="prose">{{ content | safe }}</div>
 
       {% if highlights and highlights.length %}
       <div class="panel mt-m" data-reveal>
@@ -44,9 +45,9 @@ ogType: article
     <aside class="event-aside" aria-label="Event details">
       <div class="panel">
         <h2>Event details</h2>
-        <div class="fact"><span class="ico">{{ icon('calendar') }}</span><div><small>Date</small><strong><time itemprop="startDate" datetime="{{ e | startISO }}">{{ e | eventDateLabel }}</time></strong></div></div>
+        <div class="fact"><span class="ico">{{ icon('calendar') }}</span><div><small>Date</small><strong><time datetime="{{ e | startISO }}">{{ e | eventDateLabel }}</time></strong></div></div>
         {% if startTime %}<div class="fact"><span class="ico">{{ icon('clock') }}</span><div><small>Time</small><strong>{{ e | timeRange }} <span class="muted small">(Kigali)</span></strong></div></div>{% endif %}
-        {% if location %}<div class="fact" itemprop="location" itemscope itemtype="https://schema.org/Place"><span class="ico">{{ icon('pin') }}</span><div><small>Location</small><strong itemprop="name">{{ location }}</strong><meta itemprop="address" content="{{ location }}"></div></div>{% endif %}
+        {% if location %}<div class="fact"><span class="ico">{{ icon('pin') }}</span><div><small>Location</small><strong>{{ location }}</strong></div></div>{% endif %}
         {% if audience %}<div class="fact"><span class="ico">{{ icon('users') }}</span><div><small>Who it's for</small><strong>{{ audience }}</strong></div></div>{% endif %}
         <div class="fact"><span class="ico">{{ icon('tag') }}</span><div><small>Category</small><strong>{{ category }}</strong></div></div>
       </div>
@@ -58,8 +59,8 @@ ogType: article
           <div><b data-d>0</b><span>days</span></div><div><b data-h>00</b><span>hrs</span></div><div><b data-m>00</b><span>min</span></div><div><b data-s>00</b><span>sec</span></div>
         </div>
         <div class="stack mt-s" style="--stack:12px">
-          {% if registrationUrl %}
-          <a class="btn btn--amber btn--block" href="{{ registrationUrl }}" target="_blank" rel="noopener noreferrer">Register now {{ icon('arrow-up-right') }}</a>
+          {% if reg %}
+          <a class="btn btn--amber btn--block" href="{{ reg }}" {% if reg.startsWith('http') %}target="_blank" rel="noopener noreferrer"{% endif %}>Register now {{ icon('arrow-up-right') if reg.startsWith('http') else icon('arrow', 'icon--arrow') }}</a>
           {% else %}
           <p class="note" style="color:var(--navy-200)">{{ icon('info') }}<span>{{ registrationNote or "Registration details will be shared on MSAR's official channels." }}</span></p>
           <a class="btn btn--amber btn--block" href="/join/">Join MSAR to get updates {{ icon('arrow', 'icon--arrow') }}</a>
@@ -96,8 +97,8 @@ ogType: article
 </section>
 {% endif %}
 
-{%- set related = collections.events | relatedEvents(page, category, 3) -%}
-{%- if related.length < 3 %}{% set related = collections.events | relatedEvents(page, null, 3) %}{% endif -%}
+{%- set related = collections.events | onlyPast | relatedEvents(page, category, 3) -%}
+{%- if related.length < 3 %}{% set related = collections.events | onlyPast | relatedEvents(page, null, 3) %}{% endif -%}
 <section class="section section--paper">
   <div class="container">
     <div class="section-head section-head--split">
@@ -108,8 +109,21 @@ ogType: article
     <div class="grid grid--3 rail-mobile" data-reveal-group>{% for ev in related %}{{ eventCard(ev) }}{% endfor %}</div>
   </div>
 </section>
-<meta itemprop="eventStatus" content="https://schema.org/EventScheduled">
-<meta itemprop="eventAttendanceMode" content="https://schema.org/OfflineEventAttendanceMode">
-{% if cover %}<meta itemprop="image" content="{{ cover | absoluteUrl(site.url) }}">{% endif %}
-<span itemprop="organizer" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="{{ site.fullName }}"><meta itemprop="url" content="{{ site.url }}"></span>
 </article>
+
+<script type="application/ld+json">{{ {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": title,
+  "description": summary,
+  "startDate": e | startISO,
+  "endDate": e | endISO,
+  "eventStatus": "https://schema.org/EventCancelled" if st == "cancelled" else ("https://schema.org/EventPostponed" if st == "postponed" else "https://schema.org/EventScheduled"),
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": { "@type": "Place", "name": location, "address": { "@type": "PostalAddress", "streetAddress": location, "addressLocality": "Kigali", "addressCountry": "RW" } },
+  "image": [ (cover or poster or site.ogImage) | absoluteUrl(site.url) ],
+  "url": page.url | absoluteUrl(site.url),
+  "isAccessibleForFree": true,
+  "organizer": { "@type": "Organization", "name": site.fullName, "url": site.url },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RWF", "availability": "https://schema.org/InStock", "url": (reg or page.url) | absoluteUrl(site.url) } if reg else null
+} | json | safe }}</script>
